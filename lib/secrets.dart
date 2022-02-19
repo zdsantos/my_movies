@@ -1,0 +1,2 @@
+var xRapidApiKey = "";
+var xRapidApiHost = "";
