@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_movies/screens/home_screen.dart';
 import 'package:my_movies/utils/constrains.dart';
-import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/utils.dart';
 
 void main() {

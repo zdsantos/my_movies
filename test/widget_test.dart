@@ -71,32 +71,31 @@ void main() {
     expect(result.data?.titleType, equals("movie"));
   });
 
-  test('Get title by genre', () async {
-    IMDbService _service = IMDbService(
-      "fc2bb2c207msh9ff806ba65db2f1p1cbd50jsn04509e238894",
-      "imdb8.p.rapidapi.com",
-    );
+  // test('Get title by genre', () async {
+  //   IMDbService _service = IMDbService(
+  //     "fc2bb2c207msh9ff806ba65db2f1p1cbd50jsn04509e238894",
+  //     "imdb8.p.rapidapi.com",
+  //   );
 
-    String genreEndpoint = '/chart/popular/genre/action';
-    var count = 0;
+  //   String genreEndpoint = '/chart/popular/genre/action';
 
-    var result = await _service.getMoviesByGenre(genreEndpoint);
+  //   var result = _service.getMoviesByGenre(genreEndpoint);
 
-    expect(result.success, isTrue);
-    expect(result.data, isNotNull);
-    expect(result.error, isNull);
+  //   expect(result.success, isTrue);
+  //   expect(result.data, isNotNull);
+  //   expect(result.error, isNull);
 
-    // result.data!.listen((title) {
-    //   expect(title, isNotNull);
-    //   expect(title.id, isNotNull);
-    //   expect(title.id, isNotEmpty);
-    //   count++;
-    // }, onDone: () {
-    //   expect(true, isTrue);
-    //   expect(count, equals(20));
-    // }, onError: (e) {
-    //   print(e);
-    //   expect(e, isNull);
-    // }, cancelOnError: true);
-  });
+  //   result.data!.listen((title) {
+  //     expect(title, isNotNull);
+  //     expect(title.id, isNotNull);
+  //     expect(title.id, isNotEmpty);
+  //     count++;
+  //   }, onDone: () {
+  //     expect(true, isTrue);
+  //     expect(count, equals(20));
+  //   }, onError: (e) {
+  //     print(e);
+  //     expect(e, isNull);
+  //   }, cancelOnError: true);
+  // });
 }
