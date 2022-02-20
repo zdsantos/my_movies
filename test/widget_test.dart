@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_movies/secrets.dart';
 import 'package:my_movies/services/imdb_Service.dart';
 
 void main() {
@@ -27,10 +28,7 @@ void main() {
   // });
 
   test('Find titles', () async {
-    IMDbService _service = IMDbService(
-      "fc2bb2c207msh9ff806ba65db2f1p1cbd50jsn04509e238894",
-      "imdb8.p.rapidapi.com",
-    );
+    IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
 
     var result = await _service.findTitles('avengers');
     expect(result.success, isTrue);
@@ -40,10 +38,7 @@ void main() {
   });
 
   test('Get popular genres', () async {
-    IMDbService _service = IMDbService(
-      "fc2bb2c207msh9ff806ba65db2f1p1cbd50jsn04509e238894",
-      "imdb8.p.rapidapi.com",
-    );
+    IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
 
     var result = await _service.getGenres();
     expect(result.success, isTrue);
@@ -53,10 +48,7 @@ void main() {
   });
 
   test('Get single title', () async {
-    IMDbService _service = IMDbService(
-      "fc2bb2c207msh9ff806ba65db2f1p1cbd50jsn04509e238894",
-      "imdb8.p.rapidapi.com",
-    );
+    IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
 
     String id = "/title/tt0848228/";
 
@@ -72,10 +64,7 @@ void main() {
   });
 
   // test('Get title by genre', () async {
-  //   IMDbService _service = IMDbService(
-  //     "fc2bb2c207msh9ff806ba65db2f1p1cbd50jsn04509e238894",
-  //     "imdb8.p.rapidapi.com",
-  //   );
+  //   IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
 
   //   String genreEndpoint = '/chart/popular/genre/action';
 
