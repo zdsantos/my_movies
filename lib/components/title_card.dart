@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/models/imdb_title.dart';
-import 'package:my_movies/utils/constrains.dart';
+import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/size_config.dart';
 
 class TitleCard extends StatelessWidget {

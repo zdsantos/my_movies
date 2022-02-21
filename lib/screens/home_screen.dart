@@ -6,7 +6,7 @@ import 'package:my_movies/components/titles_list.dart';
 import 'package:my_movies/models/api_result.dart';
 import 'package:my_movies/models/genre.dart';
 import 'package:my_movies/services/imdb_service.dart';
-import 'package:my_movies/utils/constrains.dart';
+import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/utils.dart';
 

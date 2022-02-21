@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/models/genre.dart';
-import 'package:my_movies/utils/constrains.dart';
+import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/size_config.dart';
 
 class GenreTag extends StatelessWidget {

@@ -14,6 +14,7 @@ class GenresList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       child: Row(
         children: genres.map((g) => GenreTag(genre: g)).toList()
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:my_movies/utils/constrains.dart';
+import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/size_config.dart';
 
 String cleanId(String id) {
