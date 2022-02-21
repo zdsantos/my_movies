@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_movies/components/genre_tag.dart';
+import 'package:my_movies/widgets/tag.dart';
 import 'package:my_movies/models/genre.dart';
 
 class GenresList extends StatelessWidget {
@@ -16,15 +16,8 @@ class GenresList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       child: Row(
-        children: genres.map((g) => GenreTag(genre: g)).toList()
-
-        // GenreTag(genre: Genre(description: "Action", endpoint: "")),
-        // GenreTag(genre: Genre(description: "Adventure", endpoint: "")),
-        // GenreTag(genre: Genre(description: "Comedy", endpoint: "")),
-        // GenreTag(genre: Genre(description: "Terror", endpoint: "")),
-        // GenreTag(genre: Genre(description: "Romance", endpoint: "")),
-        // GenreTag(genre: Genre(description: "Animation", endpoint: "")),
-        ,
+        children:
+            genres.map((g) => Tag(text: g.description, onTap: () {})).toList(),
       ),
     );
   }

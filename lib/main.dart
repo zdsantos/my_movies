@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: kWhiteColor,
           textTheme: GoogleFonts.interTextTheme()
-              .apply(displayColor: kGrayColor, bodyColor: kBlackColor),
+              .apply(displayColor: kWhiteColor, bodyColor: kWhiteColor),
           primarySwatch: toMaterialColor(kBlackColor),
           appBarTheme: const AppBarTheme(
             backgroundColor: kWhiteColor,

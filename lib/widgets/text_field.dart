@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/styles.dart';
@@ -31,7 +32,7 @@ class BoxTextField extends StatelessWidget {
 
     return TextField(
       controller: controller,
-      style: bodyStyle.apply(color: kWhiteColor),
+      style: GoogleFonts.inter().apply(color: kWhiteColor),
       cursorColor: kWhiteColor,
       cursorHeight: defaultSize * 1.6,
       obscureText: isPassword,

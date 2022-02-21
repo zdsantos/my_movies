@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/styles.dart';
-import 'package:my_movies/widgets/box_text.dart';
 
 class RoundedButton extends StatelessWidget {
   final String title;
@@ -41,10 +40,7 @@ class RoundedButton extends StatelessWidget {
                 children: [
                   if (leading != null) leading!,
                   if (leading != null) hSpacerMin,
-                  BoxText.body(
-                    title,
-                    color: kWhiteColor,
-                  ),
+                  Text(title).body(),
                 ],
               )
             : const CircularProgressIndicator(color: kWhiteColor),
