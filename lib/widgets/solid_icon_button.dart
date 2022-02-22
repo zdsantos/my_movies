@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/utils/colors.dart';
-import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/styles.dart';
 
 class SolidIconButton extends StatelessWidget {
-  final void Function() onTap;
-
   const SolidIconButton({
     Key? key,
+    required this.icon,
     required this.onTap,
   }) : super(key: key);
 
+  final IconData icon;
+  final void Function() onTap;
+
   @override
   Widget build(BuildContext context) {
-    var defaultSize = SizeConfig.defaultSize;
-
     return Container(
-      width: defaultSize * 4,
-      height: defaultSize * 4,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: kWhiteColor,
         borderRadius: BorderRadius.circular(50),
@@ -27,11 +26,11 @@ class SolidIconButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: kPrimaryColor,
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: roundedBorder,
           child: Icon(
-            Icons.person,
-            size: defaultSize * 3,
+            icon,
+            size: 30,
+            color: kPrimaryColor,
           ),
         ),
       ),

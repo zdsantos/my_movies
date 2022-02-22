@@ -16,8 +16,9 @@ class GenresList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       child: Row(
-        children:
-            genres.map((g) => Tag(text: g.description, onTap: () {})).toList(),
+        children: genres
+            .map((g) => Tag(text: g.description, onPressed: () {}))
+            .toList(),
       ),
     );
   }

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:my_movies/components/title_card.dart';
+import 'package:my_movies/components/titles_list.dart';
+import 'package:my_movies/models/imdb_title.dart';
+import 'package:my_movies/utils/my_movies_icons_icons.dart';
 import 'package:my_movies/widgets/tag.dart';
-import 'package:my_movies/models/genre.dart';
 import 'package:my_movies/utils/colors.dart';
-import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/styles.dart';
 import 'package:my_movies/widgets/rounded_button.dart';
 import 'package:my_movies/widgets/solid_icon_button.dart';
 import 'package:my_movies/widgets/text_field.dart';
-import 'package:my_movies/utils/extensions.dart';
 
 class DesignSystemExamplesSreen extends StatelessWidget {
   const DesignSystemExamplesSreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -127,15 +126,6 @@ class DesignSystemExamplesSreen extends StatelessWidget {
           color: kWhiteColor,
         ),
       ),
-      const Text('Text field with leading icon').body(),
-      vSpacerMin,
-      BoxTextField(
-        controller: TextEditingController(),
-        leading: const Icon(
-          Icons.person,
-          color: kWhiteColor,
-        ),
-      ),
     ];
   }
 
@@ -148,18 +138,117 @@ class DesignSystemExamplesSreen extends StatelessWidget {
       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        child: Row(children: [
-          Tag(text: "Action", onTap: () {}, isOutlined: true),
-          Tag(text: "Adventure", onTap: () {}),
-          Tag(text: "Comedy", onTap: () {}),
-          Tag(text: "Documentary", onTap: () {}),
-          Tag(text: "Triller", onTap: () {}),
-        ]),
+        child: Row(
+          children: [
+            Tag(text: "Action", onPressed: () {}),
+            hSpacerSmall,
+            Tag(text: "Adventure", onPressed: () {}),
+            hSpacerSmall,
+            Tag(text: "Comedy", onPressed: () {}),
+            hSpacerSmall,
+            Tag(text: "Documentary", onPressed: () {}),
+            hSpacerSmall,
+            Tag(text: "Historical", onPressed: () {}),
+            hSpacerSmall,
+            Tag(text: "Triller", onPressed: () {}),
+          ],
+        ),
+      ),
+      vSpacer,
+      const Text('Tag with avatar image'),
+      vSpacerMin,
+      SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Wrap(
+          spacing: 10,
+          children: [
+            Tag(
+              text: "Robert Downey Jr.",
+              avatarImage: const NetworkImage(
+                  "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcQ1k-ZKUe_s6cK7TnwlXGbThAFV-f1XPHTMoriO4Hbq0nhP3_fO3mcikmWF72sw"),
+              onPressed: () {},
+            ),
+            Tag(
+              text: "Chris Hemsworth",
+              avatarImage: const NetworkImage(
+                  "http://t0.gstatic.com/licensed-image?q=tbn:ANd9GcROzEC-B7v1i8RRS5Od8uqmvQoyYF68eKXML8JC2XKcLAUWtxeodclZYHDcdxJj"),
+              onPressed: () {},
+            ),
+            Tag(
+              text: "Mark Ruffalo",
+              avatarImage: const NetworkImage(
+                  "http://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQ5qqcxOlPUA5d7cYFebEx4dhObq1_MY9igDr825CiUi-9tvTD_hth40TAw5k9x"),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
       vSpacer,
       const Text('Solid icon button').body(),
       vSpacerMin,
-      SolidIconButton(onTap: () {}),
+      SolidIconButton(icon: MyMoviesIcons.person, onTap: () {}),
+      vSpacer,
+      const Text("Card").body(),
+      vSpacerMin,
+      TitleCard(
+        title: IMDBTitle(
+          id: "",
+          title: "Avengers Ultimato",
+          titleType: "movie",
+          year: 2015,
+          imageUrl:
+              "https://br.web.img3.acsta.net/pictures/19/04/26/17/30/2428965.jpg",
+          runningTimeInMinutes: 150,
+          principals: [],
+        ),
+      ),
+      vSpacer,
+      const Text("Card list").body(),
+      vSpacerMin,
+      TitlesList(
+        titles: titleList,
+      ),
+      vSpacer,
+      const Text("Card list in vertical").body(),
+      vSpacerMin,
+      TitlesList(
+        titles: titleList,
+        orientation: Axis.vertical,
+      )
     ];
   }
 }
+
+var titleList = [
+  IMDBTitle(
+    id: "",
+    title: "Avengers Ultimato",
+    titleType: "movie",
+    year: 2015,
+    imageUrl:
+        "https://br.web.img3.acsta.net/pictures/19/04/26/17/30/2428965.jpg",
+    runningTimeInMinutes: 150,
+    principals: [],
+  ),
+  IMDBTitle(
+    id: "",
+    title: "The Shawshank Redemption",
+    titleType: "movie",
+    year: 2015,
+    imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/S/pv-target-images/9964546b0ba1f6e14a6045e34b341f8ca2a3569752c5afed95b89682fcde1a68._RI_V_TTW_.jpg",
+    runningTimeInMinutes: 150,
+    principals: [],
+  ),
+  IMDBTitle(
+    id: "",
+    title: "The Lord of the Rings: The Two Towers",
+    titleType: "movie",
+    year: 2015,
+    imageUrl:
+        "https://www.oficialhostgeek.com.br/wp-content/uploads/2020/12/zzzz-scaled.jpg",
+    runningTimeInMinutes: 150,
+    principals: [],
+  ),
+];

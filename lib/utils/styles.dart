@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_movies/utils/size_config.dart';
-
-double defaultSize = SizeConfig.defaultSize;
 
 /// Texts Styles
 
 extension StyledTexts on Text {
   Text h1({TextStyle? style}) {
-    TextStyle defaultStyle = TextStyle(
-      fontSize: SizeConfig.defaultSize * 3.4,
+    TextStyle defaultStyle = const TextStyle(
+      fontSize: 34,
       fontWeight: FontWeight.w400,
     );
 
@@ -17,8 +14,8 @@ extension StyledTexts on Text {
   }
 
   Text h2({TextStyle? style}) {
-    TextStyle defaultStyle = TextStyle(
-      fontSize: defaultSize * 2.8,
+    TextStyle defaultStyle = const TextStyle(
+      fontSize: 28,
       fontWeight: FontWeight.w600,
     );
 
@@ -27,8 +24,8 @@ extension StyledTexts on Text {
   }
 
   Text h3({TextStyle? style}) {
-    TextStyle defaultStyle = TextStyle(
-      fontSize: defaultSize * 2.4,
+    TextStyle defaultStyle = const TextStyle(
+      fontSize: 24,
       fontWeight: FontWeight.w600,
     );
 
@@ -37,8 +34,8 @@ extension StyledTexts on Text {
   }
 
   Text subhead({TextStyle? style}) {
-    TextStyle defaultStyle = TextStyle(
-      fontSize: defaultSize * 2.0,
+    TextStyle defaultStyle = const TextStyle(
+      fontSize: 20,
       fontWeight: FontWeight.w400,
     );
 
@@ -47,8 +44,8 @@ extension StyledTexts on Text {
   }
 
   Text body({TextStyle? style}) {
-    TextStyle defaultStyle = TextStyle(
-      fontSize: defaultSize * 1.6,
+    TextStyle defaultStyle = const TextStyle(
+      fontSize: 16,
       fontWeight: FontWeight.w400,
     );
 
@@ -73,3 +70,8 @@ BoxShadow boxShadow = const BoxShadow(
   blurRadius: 4,
   offset: Offset(-1.5, 2.5),
 );
+
+/// Borders
+
+BorderRadius roundedBorder = BorderRadius.circular(50);
+BorderRadius defaultBorder = BorderRadius.circular(10);

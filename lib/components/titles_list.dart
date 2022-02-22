@@ -4,10 +4,14 @@ import 'package:my_movies/models/imdb_title.dart';
 import 'package:my_movies/utils/utils.dart';
 
 class TitlesList extends StatefulWidget {
-  TitlesList({Key? key, required this.builder}) : super(key: key);
+  const TitlesList({
+    Key? key,
+    required this.titles,
+    this.orientation = Axis.horizontal,
+  }) : super(key: key);
 
-  final List<IMDBTitle> titles = [];
-  final Stream<IMDBTitle> builder;
+  final List<IMDBTitle> titles;
+  final Axis orientation;
 
   @override
   State<TitlesList> createState() => _TitlesListState();
@@ -15,29 +19,25 @@ class TitlesList extends StatefulWidget {
 
 class _TitlesListState extends State<TitlesList> {
   @override
-  void initState() {
-    super.initState();
-    widget.builder.listen((title) {
-      setState(() {
-        widget.titles.add(title);
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: widget.titles.isEmpty
-          ? defaultProgressIndicator()
-          : Row(
-              children: widget.titles.map((t) => TitleCard(title: t)).toList(),
-            ),
-    );
+    return widget.orientation == Axis.horizontal
+        ? SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            child: widget.titles.isEmpty
+                ? defaultProgressIndicator()
+                : Wrap(
+                    spacing: 10,
+                    children:
+                        widget.titles.map((t) => TitleCard(title: t)).toList(),
+                  ),
+          )
+        : widget.titles.isEmpty
+            ? defaultProgressIndicator()
+            : Wrap(
+                spacing: 10,
+                children:
+                    widget.titles.map((t) => TitleCard(title: t)).toList(),
+              );
   }
 }

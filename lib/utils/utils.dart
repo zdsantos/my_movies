@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:my_movies/utils/colors.dart';
-import 'package:my_movies/utils/size_config.dart';
 
 String cleanId(String id) {
   return id.replaceAll('/title/', '').replaceAll('/', '');
@@ -45,10 +44,10 @@ Map<int, Color> _getSwatch(Color color) {
 }
 
 Widget defaultProgressIndicator() {
-  return Center(
+  return const Center(
     child: SizedBox(
-      width: SizeConfig.defaultSize * 4,
-      child: const LoadingIndicator(
+      width: 4,
+      child: LoadingIndicator(
         indicatorType: Indicator.lineSpinFadeLoader,
         colors: [kPrimaryColor],
         strokeWidth: 2,
@@ -56,3 +55,5 @@ Widget defaultProgressIndicator() {
     ),
   );
 }
+
+void showSnackBar(BuildContext context, String text) {}

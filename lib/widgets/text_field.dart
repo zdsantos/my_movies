@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_movies/utils/colors.dart';
-import 'package:my_movies/utils/size_config.dart';
 import 'package:my_movies/utils/styles.dart';
 
 class BoxTextField extends StatelessWidget {
@@ -24,9 +23,8 @@ class BoxTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double defaultSize = SizeConfig.defaultSize;
     var circularBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: roundedBorder,
       borderSide: BorderSide.none,
     );
 
@@ -34,12 +32,12 @@ class BoxTextField extends StatelessWidget {
       controller: controller,
       style: GoogleFonts.inter().apply(color: kWhiteColor),
       cursorColor: kWhiteColor,
-      cursorHeight: defaultSize * 1.6,
+      cursorHeight: 16,
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: placeholder,
-        contentPadding: EdgeInsets.symmetric(
-            vertical: defaultSize, horizontal: defaultSize * 2),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         filled: true,
         fillColor: kPrimaryColor,
         border: circularBorder,
