@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: kSecondaryColor),
         ),
       ),
-      initialRoute: '/design-system',
+      initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

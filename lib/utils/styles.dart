@@ -75,3 +75,14 @@ BoxShadow boxShadow = const BoxShadow(
 
 BorderRadius roundedBorder = BorderRadius.circular(50);
 BorderRadius defaultBorder = BorderRadius.circular(10);
+
+/// Sizes
+
+double defaultPaddingSize = 20;
+double defaultMarginSize = 20;
+
+EdgeInsetsGeometry defaultHPadding =
+    EdgeInsets.symmetric(horizontal: defaultPaddingSize);
+
+EdgeInsetsGeometry defaultVPadding =
+    EdgeInsets.symmetric(vertical: defaultPaddingSize);

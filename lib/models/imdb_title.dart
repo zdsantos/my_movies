@@ -38,4 +38,67 @@ class IMDBTitle {
       principals: principals,
     );
   }
+
+  static List<IMDBTitle> mocList = <IMDBTitle>[
+    IMDBTitle(
+      id: "",
+      title: "Avengers Ultimato",
+      titleType: "movie",
+      year: 2015,
+      imageUrl:
+          "https://br.web.img3.acsta.net/pictures/19/04/26/17/30/2428965.jpg",
+      runningTimeInMinutes: 150,
+      principals: [],
+    ),
+    IMDBTitle(
+      id: "",
+      title: "The Shawshank Redemption",
+      titleType: "movie",
+      year: 2015,
+      imageUrl:
+          "https://images-na.ssl-images-amazon.com/images/S/pv-target-images/9964546b0ba1f6e14a6045e34b341f8ca2a3569752c5afed95b89682fcde1a68._RI_V_TTW_.jpg",
+      runningTimeInMinutes: 150,
+      principals: [],
+    ),
+    IMDBTitle(
+      id: "",
+      title: "The Lord of the Rings: The Two Towers",
+      titleType: "movie",
+      year: 2015,
+      imageUrl:
+          "https://www.oficialhostgeek.com.br/wp-content/uploads/2020/12/zzzz-scaled.jpg",
+      runningTimeInMinutes: 150,
+      principals: [],
+    ),
+    IMDBTitle(
+      id: "",
+      title: "Avengers Ultimato",
+      titleType: "movie",
+      year: 2015,
+      imageUrl:
+          "https://br.web.img3.acsta.net/pictures/19/04/26/17/30/2428965.jpg",
+      runningTimeInMinutes: 150,
+      principals: [],
+    ),
+    IMDBTitle(
+      id: "",
+      title: "The Shawshank Redemption",
+      titleType: "movie",
+      year: 2015,
+      imageUrl:
+          "https://images-na.ssl-images-amazon.com/images/S/pv-target-images/9964546b0ba1f6e14a6045e34b341f8ca2a3569752c5afed95b89682fcde1a68._RI_V_TTW_.jpg",
+      runningTimeInMinutes: 150,
+      principals: [],
+    ),
+    IMDBTitle(
+      id: "",
+      title: "The Lord of the Rings: The Two Towers",
+      titleType: "movie",
+      year: 2015,
+      imageUrl:
+          "https://www.oficialhostgeek.com.br/wp-content/uploads/2020/12/zzzz-scaled.jpg",
+      runningTimeInMinutes: 150,
+      principals: [],
+    ),
+  ];
 }

@@ -7,7 +7,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_movies/secrets.dart';
-import 'package:my_movies/services/imdb_Service.dart';
+import 'package:my_movies/services/themoviedb_service.dart';
 
 void main() {
   // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -27,41 +27,40 @@ void main() {
   //   expect(find.text('1'), findsOneWidget);
   // });
 
-  test('Find titles', () async {
-    IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
+  // test('Find titles', () async {
+  //   IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
 
-    var result = await _service.findTitles('avengers');
-    expect(result.success, isTrue);
-    expect(result.data, isNotNull);
-    expect(result.data, isNotEmpty);
-    expect(result.error, isNull);
-  });
+  //   var result = await _service.findTitles('avengers');
+  //   expect(result.success, isTrue);
+  //   expect(result.data, isNotNull);
+  //   expect(result.data, isNotEmpty);
+  //   expect(result.error, isNull);
+  // });
 
   test('Get popular genres', () async {
-    IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
+    TheMovieDBService service = TheMovieDBService(apiKey);
 
-    var result = await _service.getGenres();
-    expect(result.success, isTrue);
-    expect(result.data, isNotNull);
-    expect(result.data, isNotEmpty);
-    expect(result.error, isNull);
+    var result = await service.fetchMoviesGenre();
+    print(result);
+    expect(result, isNotNull);
+    expect(result, isNotEmpty);
   });
 
-  test('Get single title', () async {
-    IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
+  // test('Get single title', () async {
+  //   IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
 
-    String id = "/title/tt0848228/";
+  //   String id = "/title/tt0848228/";
 
-    var result = await _service.getTitle(id);
+  //   var result = await _service.getTitle(id);
 
-    expect(result.success, isTrue);
-    expect(result.data, isNotNull);
-    expect(result.error, isNull);
+  //   expect(result.success, isTrue);
+  //   expect(result.data, isNotNull);
+  //   expect(result.error, isNull);
 
-    expect(result.data?.id, equals(id));
-    expect(result.data?.title, equals("The Avengers"));
-    expect(result.data?.titleType, equals("movie"));
-  });
+  //   expect(result.data?.id, equals(id));
+  //   expect(result.data?.title, equals("The Avengers"));
+  //   expect(result.data?.titleType, equals("movie"));
+  // });
 
   // test('Get title by genre', () async {
   //   IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);

@@ -29,7 +29,7 @@ class SolidIconButton extends StatelessWidget {
           borderRadius: roundedBorder,
           child: Icon(
             icon,
-            size: 30,
+            size: 25,
             color: kPrimaryColor,
           ),
         ),

@@ -46,10 +46,10 @@ Map<int, Color> _getSwatch(Color color) {
 Widget defaultProgressIndicator() {
   return const Center(
     child: SizedBox(
-      width: 4,
+      width: 40,
       child: LoadingIndicator(
         indicatorType: Indicator.lineSpinFadeLoader,
-        colors: [kPrimaryColor],
+        colors: [kWhiteColor],
         strokeWidth: 2,
       ),
     ),
