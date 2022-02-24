@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/MyMoviesIcons.ttf
 ///
-///
+/// 
 /// * Font Awesome 4, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
@@ -25,8 +25,6 @@
 ///         License:   MIT (http://opensource.org/licenses/mit-license.php)
 ///         Homepage:  https://primer.style/octicons/
 ///
-// ignore_for_file: constant_identifier_names
-
 import 'package:flutter/widgets.dart';
 
 class MyMoviesIcons {
@@ -35,12 +33,10 @@ class MyMoviesIcons {
   static const _kFontFam = 'MyMoviesIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData bookmark =
-      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData left_open =
-      IconData(0xf007, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData bookmark_empty =
-      IconData(0xf097, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData person =
-      IconData(0xf3c8, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bookmark = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData search = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData star = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData left_open = IconData(0xf007, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bookmark_empty = IconData(0xf097, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData person = IconData(0xf3c8, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

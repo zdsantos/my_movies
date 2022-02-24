@@ -52,16 +52,13 @@ extension StyledTexts on Text {
     return Text(data!,
         style: (this.style ?? defaultStyle).merge(style ?? defaultStyle));
   }
+
+  static TextStyle h1Style() => const Text("").h1().style!;
+  static TextStyle h2Style() => const Text("").h2().style!;
+  static TextStyle h3Style() => const Text("").h3().style!;
+  static TextStyle bodyStyle() => const Text("").body().style!;
+  static TextStyle subheadStyle() => const Text("").subhead().style!;
 }
-
-/// Spaces
-
-Widget hSpacer = const SizedBox(width: 20);
-Widget hSpacerSmall = const SizedBox(width: 10);
-Widget hSpacerMin = const SizedBox(width: 5);
-Widget vSpacer = const SizedBox(height: 20);
-Widget vSpacerSmall = const SizedBox(height: 10);
-Widget vSpacerMin = const SizedBox(height: 5);
 
 /// Shadow
 
@@ -76,10 +73,20 @@ BoxShadow boxShadow = const BoxShadow(
 BorderRadius roundedBorder = BorderRadius.circular(50);
 BorderRadius defaultBorder = BorderRadius.circular(10);
 
-/// Sizes
+/// Sizes and Spaces
 
-double defaultPaddingSize = 20;
-double defaultMarginSize = 20;
+const double _baseSize = 20.0;
+const double defaultIconSize = 25.0;
+
+Widget hSpacer = const SizedBox(width: _baseSize);
+Widget hSpacerSmall = const SizedBox(width: _baseSize / 2);
+Widget hSpacerMin = const SizedBox(width: _baseSize / 4);
+Widget vSpacer = const SizedBox(height: _baseSize);
+Widget vSpacerSmall = const SizedBox(height: _baseSize / 2);
+Widget vSpacerMin = const SizedBox(height: _baseSize / 4);
+
+double defaultPaddingSize = _baseSize;
+double defaultMarginSize = _baseSize;
 
 EdgeInsetsGeometry defaultHPadding =
     EdgeInsets.symmetric(horizontal: defaultPaddingSize);

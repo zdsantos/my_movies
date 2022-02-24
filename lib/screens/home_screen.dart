@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/components/genres_list.dart';
 import 'package:my_movies/components/titles_list.dart';
-import 'package:my_movies/models/api_result.dart';
-import 'package:my_movies/models/genre/genre.dart';
 import 'package:my_movies/models/imdb_title.dart';
+import 'package:my_movies/models/search_data.dart';
+import 'package:my_movies/providers/genre_provider.dart';
 import 'package:my_movies/utils/colors.dart';
+import 'package:my_movies/utils/feature_flag.dart';
 import 'package:my_movies/utils/my_movies_icons_icons.dart';
 import 'package:my_movies/utils/styles.dart';
 import 'package:my_movies/utils/utils.dart';
+import 'package:my_movies/widgets/base_container.dart';
 import 'package:my_movies/widgets/solid_icon_button.dart';
 import 'package:my_movies/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,56 +21,63 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController _searchController = TextEditingController();
 
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(gradient: kBackgroundGradient),
+    return MultiProvider(
+        providers: [
+          ListenableProvider<GenreProvider>(
+              create: (context) => GenreProvider()),
+        ],
+        child: BaseContainer(
           child: Stack(
             children: [
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                // physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 80,
+                    SizedBox(
+                      height: ffProfileEnable
+                          ? defaultPaddingSize * 4
+                          : defaultPaddingSize,
                     ),
                     Padding(
                       padding: defaultHPadding,
                       child: BoxTextField(
                         controller: _searchController,
                         trailing: const Icon(
-                          MyMoviesIcons.bookmark,
+                          MyMoviesIcons.search,
                           color: kWhiteColor,
+                          size: defaultIconSize,
                         ),
-                        trailingTapped: () {},
+                        trailingTapped: () => Navigator.pushNamed(
+                            context, "/search",
+                            arguments:
+                                SearchData(searchTerm: _searchController.text)),
                       ),
                     ),
-                    // vSpacer,
-                    // FutureBuilder<ApiResult<List<Genre>>>(
-                    //   future: _service.getGenres(),
-                    //   builder: ((context, snapshot) {
-                    //     if (snapshot.connectionState ==
-                    //         ConnectionState.waiting) {
-                    //       return Center(child: defaultProgressIndicator());
-                    //     } else {
-                    //       if (snapshot.data!.success) {
-                    //         return GenresList(genres: snapshot.data!.data!);
-                    //       } else {
-                    //         return Center(
-                    //           child: Text(snapshot.data!.error!).body(
-                    //             style: const TextStyle(color: Colors.red),
-                    //           ),
-                    //         );
-                    //       }
-                    //     }
-                    //   }),
-                    // ),
+                    vSpacer,
+                    Builder(
+                      builder: (context) {
+                        final genreProvider =
+                            Provider.of<GenreProvider>(context);
+                        switch (genreProvider.state) {
+                          case ProviderState.success:
+                            return GenresList(genres: genreProvider.genres);
+                          case ProviderState.error:
+                            return Center(
+                              child: const Text("error on fetch genres").body(
+                                  style: const TextStyle(color: Colors.red)),
+                            );
+                          case ProviderState.loading:
+                            return Center(child: defaultProgressIndicator());
+                          default:
+                            return Center(child: defaultProgressIndicator());
+                        }
+                      },
+                    ),
                     vSpacer,
                     Padding(
                       padding: defaultHPadding,
-                      child: const Text("Popular").h1(),
+                      child: const Text("Trending").h1(),
                     ),
                     vSpacerSmall,
                     Center(
@@ -79,16 +89,16 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Positioned(
-                child:
-                    SolidIconButton(icon: MyMoviesIcons.person, onTap: () {}),
-                right: defaultPaddingSize,
-                top: defaultPaddingSize,
-              ),
+              ffProfileEnable
+                  ? Positioned(
+                      child: SolidIconButton(
+                          icon: MyMoviesIcons.person, onTap: () {}),
+                      right: defaultPaddingSize,
+                      top: defaultPaddingSize,
+                    )
+                  : Container(),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_movies/route_generator.dart';
+import 'package:my_movies/secrets.dart';
+import 'package:my_movies/services/themoviedb_service.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/utils.dart';
 
 void main() {
+  setupDepedencies();
   runApp(const MyApp());
+}
+
+void setupDepedencies() {
+  GetIt.I.registerSingleton(TheMovieDBService(apiKey));
 }
 
 class MyApp extends StatelessWidget {

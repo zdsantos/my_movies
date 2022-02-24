@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/models/imdb_title.dart';
+import 'package:my_movies/utils/colors.dart';
+import 'package:my_movies/utils/feature_flag.dart';
+import 'package:my_movies/utils/my_movies_icons_icons.dart';
 import 'package:my_movies/utils/styles.dart';
 
 class TitleCard extends StatelessWidget {
@@ -12,7 +15,7 @@ class TitleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5),
+      padding: EdgeInsets.all(defaultPaddingSize / 2),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.4,
         child: AspectRatio(
@@ -37,14 +40,27 @@ class TitleCard extends StatelessWidget {
                 ),
               ),
               Positioned.fill(
-                  bottom: 0.0,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: defaultBorder,
-                      onTap: () {},
-                    ),
-                  ))
+                bottom: 0.0,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: defaultBorder,
+                    onTap: onTap,
+                  ),
+                ),
+              ),
+              ffFavoriteEnable
+                  ? Positioned(
+                      bottom: -defaultPaddingSize / 3,
+                      right: -defaultPaddingSize / 3,
+                      child: IconButton(
+                          icon: const Icon(
+                            MyMoviesIcons.bookmark_empty,
+                            color: kWhiteColor,
+                          ),
+                          onPressed: () {}),
+                    )
+                  : Container(),
             ],
           ),
         ),

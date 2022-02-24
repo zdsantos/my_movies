@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_movies/screens/home_screen.dart';
 import 'package:my_movies/secrets.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
 
@@ -36,6 +37,12 @@ void main() {
   //   expect(result.data, isNotEmpty);
   //   expect(result.error, isNull);
   // });
+
+  testWidgets('Run home screen', (WidgetTester tester) async {
+    await tester.pumpWidget(const HomeScreen());
+
+    expect(find.text('Trending'), findsOneWidget);
+  });
 
   test('Get popular genres', () async {
     TheMovieDBService service = TheMovieDBService(apiKey);

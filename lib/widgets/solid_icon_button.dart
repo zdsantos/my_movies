@@ -19,7 +19,7 @@ class SolidIconButton extends StatelessWidget {
       height: 40,
       decoration: BoxDecoration(
         color: kWhiteColor,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: roundedBorder,
         boxShadow: [boxShadow],
       ),
       child: Material(
@@ -29,7 +29,7 @@ class SolidIconButton extends StatelessWidget {
           borderRadius: roundedBorder,
           child: Icon(
             icon,
-            size: 25,
+            size: defaultIconSize,
             color: kPrimaryColor,
           ),
         ),

@@ -10,6 +10,7 @@ class BoxTextField extends StatelessWidget {
   final Widget? trailing;
   final void Function()? trailingTapped;
   final bool isPassword;
+  final bool autofocus;
 
   const BoxTextField({
     Key? key,
@@ -19,6 +20,7 @@ class BoxTextField extends StatelessWidget {
     this.trailing,
     this.trailingTapped,
     this.isPassword = false,
+    this.autofocus = false,
   }) : super(key: key);
 
   @override
@@ -29,15 +31,16 @@ class BoxTextField extends StatelessWidget {
     );
 
     return TextField(
+      autofocus: autofocus,
       controller: controller,
       style: GoogleFonts.inter().apply(color: kWhiteColor),
       cursorColor: kWhiteColor,
-      cursorHeight: 16,
+      cursorHeight: 22,
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: placeholder,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        contentPadding: EdgeInsets.symmetric(
+            vertical: defaultPaddingSize / 2, horizontal: defaultPaddingSize),
         filled: true,
         fillColor: kPrimaryColor,
         border: circularBorder,
