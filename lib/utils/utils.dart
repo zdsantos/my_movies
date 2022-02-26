@@ -56,4 +56,6 @@ Widget defaultProgressIndicator() {
   );
 }
 
-void showSnackBar(BuildContext context, String text) {}
+double castDoubleFromJson(dynamic value) {
+  return value is int ? value.toDouble() : value;
+}

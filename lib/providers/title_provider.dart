@@ -1,16 +1,17 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
-import 'package:my_movies/models/genre.dart';
+import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/providers/provider_state.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
 
-class GenreProvider with ChangeNotifier {
-  GenreProvider() {
+class TitleProvider with ChangeNotifier {
+  TitleProvider(this.id) {
     _service = GetIt.I.get<TheMovieDBService>();
     _loadData();
   }
 
-  List<Genre> genres = [];
+  int id;
+  late Movie movie;
   late TheMovieDBService _service;
   ProviderState _state = ProviderState.initial;
 
@@ -18,8 +19,8 @@ class GenreProvider with ChangeNotifier {
     _state = ProviderState.loading;
     notifyListeners();
     try {
-      var result = await _service.fetchMoviesGenre();
-      genres = result;
+      var result = await _service.getMovie(id);
+      movie = result;
       _state = ProviderState.success;
     } catch (e) {
       print(e);

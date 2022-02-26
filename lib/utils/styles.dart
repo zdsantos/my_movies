@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_movies/utils/colors.dart';
 
 /// Texts Styles
 
@@ -36,7 +37,7 @@ extension StyledTexts on Text {
   Text subhead({TextStyle? style}) {
     TextStyle defaultStyle = const TextStyle(
       fontSize: 20,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w600,
     );
 
     return Text(data!,
@@ -48,6 +49,14 @@ extension StyledTexts on Text {
       fontSize: 16,
       fontWeight: FontWeight.w400,
     );
+
+    return Text(data!,
+        style: (this.style ?? defaultStyle).merge(style ?? defaultStyle));
+  }
+
+  Text error({TextStyle? style}) {
+    TextStyle defaultStyle = const TextStyle(
+        fontSize: 16, fontWeight: FontWeight.w400, color: kErrorColor);
 
     return Text(data!,
         style: (this.style ?? defaultStyle).merge(style ?? defaultStyle));

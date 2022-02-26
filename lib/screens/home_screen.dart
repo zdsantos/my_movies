@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:my_movies/components/genres_list.dart';
 import 'package:my_movies/components/titles_list.dart';
-import 'package:my_movies/models/imdb_title.dart';
 import 'package:my_movies/models/search_data.dart';
 import 'package:my_movies/providers/genre_provider.dart';
+import 'package:my_movies/providers/popular_movies_provider.dart';
+import 'package:my_movies/providers/provider_state.dart';
+import 'package:my_movies/providers/trending_movies_provider.dart';
+import 'package:my_movies/services/themoviedb_service.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/feature_flag.dart';
 import 'package:my_movies/utils/my_movies_icons_icons.dart';
@@ -25,8 +29,13 @@ class HomeScreen extends StatelessWidget {
         providers: [
           ListenableProvider<GenreProvider>(
               create: (context) => GenreProvider()),
+          ListenableProvider<TrendingMoviesProvider>(
+              create: (context) => TrendingMoviesProvider()),
+          ListenableProvider<PopularMoviesProvider>(
+              create: (context) => PopularMoviesProvider()),
         ],
         child: BaseContainer(
+          height: double.infinity,
           child: Stack(
             children: [
               SingleChildScrollView(
@@ -64,8 +73,8 @@ class HomeScreen extends StatelessWidget {
                             return GenresList(genres: genreProvider.genres);
                           case ProviderState.error:
                             return Center(
-                              child: const Text("error on fetch genres").body(
-                                  style: const TextStyle(color: Colors.red)),
+                              child:
+                                  const Text("error on fetch genres").error(),
                             );
                           case ProviderState.loading:
                             return Center(child: defaultProgressIndicator());
@@ -75,17 +84,9 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     vSpacer,
-                    Padding(
-                      padding: defaultHPadding,
-                      child: const Text("Trending").h1(),
-                    ),
-                    vSpacerSmall,
-                    Center(
-                      child: TitlesList(
-                        titles: IMDBTitle.mocList,
-                        orientation: Axis.vertical,
-                      ),
-                    ),
+                    ..._buildTrendingList(),
+                    vSpacer,
+                    ..._buildPopularList(),
                   ],
                 ),
               ),
@@ -100,5 +101,62 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  List<Widget> _buildTrendingList() {
+    return [
+      Padding(
+        padding: defaultHPadding,
+        child: const Text("Tendências").h3(),
+      ),
+      Center(
+        child: Builder(
+          builder: (context) {
+            final trendingProvider =
+                Provider.of<TrendingMoviesProvider>(context);
+            switch (trendingProvider.state) {
+              case ProviderState.success:
+                return TitlesList(titles: trendingProvider.movies);
+              case ProviderState.error:
+                return Center(
+                  child: const Text("error on fetch trending").error(),
+                );
+              case ProviderState.loading:
+                return Center(child: defaultProgressIndicator());
+              default:
+                return Center(child: defaultProgressIndicator());
+            }
+          },
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _buildPopularList() {
+    return [
+      Padding(
+        padding: defaultHPadding,
+        child: const Text("Populares").h3(),
+      ),
+      Center(
+        child: Builder(
+          builder: (context) {
+            final popularProvider = Provider.of<PopularMoviesProvider>(context);
+            switch (popularProvider.state) {
+              case ProviderState.success:
+                return TitlesList(titles: popularProvider.movies);
+              case ProviderState.error:
+                return Center(
+                  child: const Text("error on fetch popular").error(),
+                );
+              case ProviderState.loading:
+                return Center(child: defaultProgressIndicator());
+              default:
+                return Center(child: defaultProgressIndicator());
+            }
+          },
+        ),
+      ),
+    ];
   }
 }

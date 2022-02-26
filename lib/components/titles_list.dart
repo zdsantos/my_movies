@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/components/title_card.dart';
-import 'package:my_movies/models/imdb_title.dart';
-import 'package:my_movies/utils/utils.dart';
+import 'package:my_movies/models/movie.dart';
 
 class TitlesList extends StatefulWidget {
   const TitlesList({
@@ -10,7 +9,7 @@ class TitlesList extends StatefulWidget {
     this.orientation = Axis.horizontal,
   }) : super(key: key);
 
-  final List<IMDBTitle> titles;
+  final List<Movie> titles;
   final Axis orientation;
 
   @override
@@ -24,20 +23,14 @@ class _TitlesListState extends State<TitlesList> {
         ? SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
-            child: widget.titles.isEmpty
-                ? defaultProgressIndicator()
-                : Wrap(
-                    spacing: 10,
-                    children:
-                        widget.titles.map((t) => TitleCard(title: t)).toList(),
-                  ),
+            child: Wrap(
+              spacing: 10,
+              children: widget.titles.map((t) => TitleCard(title: t)).toList(),
+            ),
           )
-        : widget.titles.isEmpty
-            ? defaultProgressIndicator()
-            : Wrap(
-                spacing: 10,
-                children:
-                    widget.titles.map((t) => TitleCard(title: t)).toList(),
-              );
+        : Wrap(
+            spacing: 10,
+            children: widget.titles.map((t) => TitleCard(title: t)).toList(),
+          );
   }
 }

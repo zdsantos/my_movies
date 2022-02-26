@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_movies/screens/home_screen.dart';
+import 'package:my_movies/models/language.dart';
 import 'package:my_movies/secrets.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
 
@@ -38,59 +38,71 @@ void main() {
   //   expect(result.error, isNull);
   // });
 
-  testWidgets('Run home screen', (WidgetTester tester) async {
-    await tester.pumpWidget(const HomeScreen());
-
-    expect(find.text('Trending'), findsOneWidget);
-  });
-
   test('Get popular genres', () async {
     TheMovieDBService service = TheMovieDBService(apiKey);
 
     var result = await service.fetchMoviesGenre();
-    print(result);
+
     expect(result, isNotNull);
     expect(result, isNotEmpty);
   });
 
-  // test('Get single title', () async {
-  //   IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
+  test('Get single movie', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
 
-  //   String id = "/title/tt0848228/";
+    var result = await service.getMovie(550);
 
-  //   var result = await _service.getTitle(id);
+    expect(result.id, equals(550));
+    expect(result.imdbId, equals("tt0137523"));
+    expect(result.title, equals("Fight Club"));
+    expect(result.status, equals("Released"));
+    expect(result.genres.any((g) => g.id == 18), isTrue);
+    expect(result.productionCompanies.any((c) => c.id == 508), isTrue);
+    expect(result.productionCountries.any((c) => c.iso_3166_1 == "US"), isTrue);
+    expect(result.spokenLanguages.any((c) => c.iso_639_1 == "en"), isTrue);
+    expect(result.spokenLanguages.any((c) => c.iso_639_1 == "en"), isTrue);
 
-  //   expect(result.success, isTrue);
-  //   expect(result.data, isNotNull);
-  //   expect(result.error, isNull);
+    var resultPt = await service.getMovie(550, language: LanguageCode.pt_BR);
 
-  //   expect(result.data?.id, equals(id));
-  //   expect(result.data?.title, equals("The Avengers"));
-  //   expect(result.data?.titleType, equals("movie"));
-  // });
+    expect(resultPt.id, equals(550));
+    expect(resultPt.imdbId, equals("tt0137523"));
+    expect(resultPt.title, equals("Clube da Luta"));
+  });
 
-  // test('Get title by genre', () async {
-  //   IMDbService _service = IMDbService(xRapidApiKey, xRapidApiHost);
+  test('Get trending movies', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
 
-  //   String genreEndpoint = '/chart/popular/genre/action';
+    var result = await service.fetchTrendingMovies();
 
-  //   var result = _service.getMoviesByGenre(genreEndpoint);
+    expect(result, isNotNull);
+    expect(result, isNotEmpty);
+  });
 
-  //   expect(result.success, isTrue);
-  //   expect(result.data, isNotNull);
-  //   expect(result.error, isNull);
+  test('Get popular movies on BR', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
 
-  //   result.data!.listen((title) {
-  //     expect(title, isNotNull);
-  //     expect(title.id, isNotNull);
-  //     expect(title.id, isNotEmpty);
-  //     count++;
-  //   }, onDone: () {
-  //     expect(true, isTrue);
-  //     expect(count, equals(20));
-  //   }, onError: (e) {
-  //     print(e);
-  //     expect(e, isNull);
-  //   }, cancelOnError: true);
-  // });
+    var result = await service.fetchPopularByRegion("BR");
+
+    expect(result, isNotNull);
+    expect(result, isNotEmpty);
+  });
+
+  test('Get popular movies on BR pages', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result1 = await service.fetchPopularByRegion("BR", page: 1);
+
+    expect(result1, isNotNull);
+    expect(result1, isNotEmpty);
+
+    var result2 = await service.fetchPopularByRegion("BR", page: 2);
+
+    expect(result1, isNotNull);
+    expect(result1, isNotEmpty);
+
+    for (var item in result1) {
+      var result = result2.every((element) => element.id != item.id);
+      expect(result, isTrue);
+    }
+  });
 }

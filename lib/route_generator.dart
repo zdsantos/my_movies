@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/models/search_data.dart';
 import 'package:my_movies/screens/design_system_exemples.dart';
 import 'package:my_movies/screens/home_screen.dart';
 import 'package:my_movies/screens/search_result_screen.dart';
+import 'package:my_movies/screens/title_screen.dart';
 import 'package:my_movies/utils/styles.dart';
 
 class RouteGenerator {
@@ -18,6 +20,10 @@ class RouteGenerator {
       case '/search':
         return MaterialPageRoute(
           builder: (_) => SearchResultScreen(searchData: args as SearchData),
+        );
+      case '/title':
+        return MaterialPageRoute(
+          builder: (_) => TitleScreen(title: args as Movie),
         );
       default:
         return _errorScreen();

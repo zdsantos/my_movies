@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:my_movies/models/genre/genre.dart';
+import 'package:my_movies/models/genre.dart';
 
 class SearchData {
   SearchData({this.searchTerm, this.searchGenre});

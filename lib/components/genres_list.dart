@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_movies/models/search_data.dart';
 import 'package:my_movies/utils/styles.dart';
 import 'package:my_movies/widgets/tag.dart';
-import 'package:my_movies/models/genre/genre.dart';
+import 'package:my_movies/models/genre.dart';
 
 class GenresList extends StatelessWidget {
   const GenresList({

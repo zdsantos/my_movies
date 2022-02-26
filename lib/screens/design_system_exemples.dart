@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/components/title_card.dart';
 import 'package:my_movies/components/titles_list.dart';
-import 'package:my_movies/models/imdb_title.dart';
+import 'package:my_movies/models/genre.dart';
+import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/utils/my_movies_icons_icons.dart';
 import 'package:my_movies/widgets/tag.dart';
 import 'package:my_movies/utils/colors.dart';
@@ -192,16 +193,7 @@ class DesignSystemExamplesSreen extends StatelessWidget {
       const Text("Card").body(),
       vSpacerMin,
       TitleCard(
-        title: IMDBTitle(
-          id: "",
-          title: "Avengers Ultimato",
-          titleType: "movie",
-          year: 2015,
-          imageUrl:
-              "https://br.web.img3.acsta.net/pictures/19/04/26/17/30/2428965.jpg",
-          runningTimeInMinutes: 150,
-          principals: [],
-        ),
+        title: titleList[0],
       ),
       vSpacer,
       const Text("Card list").body(),
@@ -221,34 +213,25 @@ class DesignSystemExamplesSreen extends StatelessWidget {
 }
 
 var titleList = [
-  IMDBTitle(
-    id: "",
-    title: "Avengers Ultimato",
-    titleType: "movie",
-    year: 2015,
-    imageUrl:
-        "https://br.web.img3.acsta.net/pictures/19/04/26/17/30/2428965.jpg",
-    runningTimeInMinutes: 150,
-    principals: [],
-  ),
-  IMDBTitle(
-    id: "",
-    title: "The Shawshank Redemption",
-    titleType: "movie",
-    year: 2015,
-    imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/S/pv-target-images/9964546b0ba1f6e14a6045e34b341f8ca2a3569752c5afed95b89682fcde1a68._RI_V_TTW_.jpg",
-    runningTimeInMinutes: 150,
-    principals: [],
-  ),
-  IMDBTitle(
-    id: "",
-    title: "The Lord of the Rings: The Two Towers",
-    titleType: "movie",
-    year: 2015,
-    imageUrl:
-        "https://www.oficialhostgeek.com.br/wp-content/uploads/2020/12/zzzz-scaled.jpg",
-    runningTimeInMinutes: 150,
-    principals: [],
+  Movie(
+    adult: false,
+    id: 634649,
+    originalTitle: "Spider-Man: No Way Home",
+    releaseDate: DateTime.parse("2021-12-15"),
+    status: "Released",
+    title: "Spider-Man: No Way Home",
+    posterPath: "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+    popularity: 6575.499,
+    genres: [
+      const Genre(id: 28, name: "Action"),
+      const Genre(id: 12, name: "Adventure"),
+      const Genre(id: 878, name: "Science Fiction"),
+    ],
+    backdropPath: "/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg",
+    overview:
+        "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
+    runtime: 148,
+    voteAverage: 8.3,
+    voteCount: 8296,
   ),
 ];
