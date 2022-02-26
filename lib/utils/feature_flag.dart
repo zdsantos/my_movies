@@ -1,2 +1,2 @@
-bool ffProfileEnable = true;
-bool ffFavoriteEnable = true;
+bool ffProfileEnable = false;
+bool ffFavoriteEnable = false;
