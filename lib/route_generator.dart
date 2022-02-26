@@ -3,6 +3,7 @@ import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/models/search_data.dart';
 import 'package:my_movies/screens/design_system_exemples.dart';
 import 'package:my_movies/screens/home_screen.dart';
+import 'package:my_movies/screens/person_screen.dart';
 import 'package:my_movies/screens/search_result_screen.dart';
 import 'package:my_movies/screens/title_screen.dart';
 import 'package:my_movies/utils/styles.dart';
@@ -24,6 +25,10 @@ class RouteGenerator {
       case '/title':
         return MaterialPageRoute(
           builder: (_) => TitleScreen(title: args as Movie),
+        );
+      case '/person':
+        return MaterialPageRoute(
+          builder: (_) => PersonScreen(id: args as int),
         );
       default:
         return _errorScreen();

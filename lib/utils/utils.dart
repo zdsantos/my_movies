@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/styles.dart';
@@ -81,4 +82,8 @@ void showInfoSnakbar(BuildContext context, String text,
           right: defaultMarginSize * 4,
           bottom: defaultMarginSize),
     ));
+}
+
+String formatCurrency(double value) {
+  return NumberFormat.currency(symbol: "\$").format(value);
 }

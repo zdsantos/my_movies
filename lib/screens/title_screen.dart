@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_movies/components/cast_crew_list.dart';
 import 'package:my_movies/components/genres_list.dart';
 import 'package:my_movies/models/cast_crew_member.dart';
 import 'package:my_movies/models/movie.dart';
@@ -61,7 +62,9 @@ class _TitleScreenState extends State<TitleScreen> {
               return _buildTitleView(provider);
             case ProviderState.error:
               return Center(
-                child: const Text("error").error(),
+                child: const Text(
+                        "Ocorreu um erro ao buscar informações do título")
+                    .error(),
               );
             case ProviderState.initial:
             case ProviderState.loading:
@@ -175,7 +178,7 @@ class _TitleScreenState extends State<TitleScreen> {
                 iconSize: 60,
                 icon: Icon(
                   Icons.play_circle_fill_rounded,
-                  color: kDarkColor.withOpacity(0.8),
+                  color: kWhiteColor.withOpacity(0.8),
                 ),
                 onPressed: () {
                   _launchVideo(videos);
@@ -258,6 +261,40 @@ class _TitleScreenState extends State<TitleScreen> {
                   ),
                 )
               : Container(),
+          movie.budget != null
+              ? Text.rich(
+                  TextSpan(
+                    text: "Orçamento: ",
+                    style: StyledTexts.bodyStyle()
+                        .copyWith(fontWeight: FontWeight.w600),
+                    children: [
+                      TextSpan(
+                          text: movie.budget! == 0
+                              ? "-"
+                              : formatCurrency(movie.budget!),
+                          style: StyledTexts.bodyStyle()
+                              .copyWith(fontWeight: FontWeight.w400)),
+                    ],
+                  ),
+                )
+              : Container(),
+          movie.revenue != null
+              ? Text.rich(
+                  TextSpan(
+                    text: "Receita: ",
+                    style: StyledTexts.bodyStyle()
+                        .copyWith(fontWeight: FontWeight.w600),
+                    children: [
+                      TextSpan(
+                          text: movie.revenue! == 0
+                              ? "-"
+                              : formatCurrency(movie.revenue!),
+                          style: StyledTexts.bodyStyle()
+                              .copyWith(fontWeight: FontWeight.w400)),
+                    ],
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
@@ -277,7 +314,7 @@ class _TitleScreenState extends State<TitleScreen> {
                     child: const Text("Dirigido por").body(
                         style: const TextStyle(fontWeight: FontWeight.w600)),
                   ),
-                  _buildCastCrewList(provider.directors)
+                  CastCrewList(list: provider.directors)
                 ],
               )
             : Container(),
@@ -290,7 +327,7 @@ class _TitleScreenState extends State<TitleScreen> {
                     child: const Text("Roterizado por").body(
                         style: const TextStyle(fontWeight: FontWeight.w600)),
                   ),
-                  _buildCastCrewList(provider.screenplayers)
+                  CastCrewList(list: provider.screenplayers)
                 ],
               )
             : Container(),
@@ -303,36 +340,11 @@ class _TitleScreenState extends State<TitleScreen> {
                     child: const Text("Elenco").body(
                         style: const TextStyle(fontWeight: FontWeight.w600)),
                   ),
-                  _buildCastCrewList(provider.credits.cast)
+                  CastCrewList(list: provider.credits.cast)
                 ],
               )
             : Container(),
       ],
-    );
-  }
-
-  Widget _buildCastCrewList(List<CastCrewMember> list) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Wrap(
-        spacing: defaultPaddingSize / 2,
-        children: [
-          vSpacerSmall,
-          ...list
-              .map(
-                (c) => Tag(
-                  text: c.name,
-                  info: c.character,
-                  onPressed: () {},
-                  avatarImage: NetworkImage(
-                    TheMovieDBService.buildImageUrl(c.profilePath),
-                  ),
-                ),
-              )
-              .toList(),
-        ],
-      ),
     );
   }
 }
