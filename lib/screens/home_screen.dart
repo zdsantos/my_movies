@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_movies/components/genres_list.dart';
 import 'package:my_movies/components/titles_list.dart';
+import 'package:my_movies/components/upcoming_movies_list.dart';
 import 'package:my_movies/models/search_data.dart';
 import 'package:my_movies/providers/genre_provider.dart';
 import 'package:my_movies/providers/popular_movies_provider.dart';
 import 'package:my_movies/providers/provider_state.dart';
 import 'package:my_movies/providers/trending_movies_provider.dart';
+import 'package:my_movies/providers/upcoming_movies_provider.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/feature_flag.dart';
@@ -33,6 +35,8 @@ class HomeScreen extends StatelessWidget {
               create: (context) => TrendingMoviesProvider()),
           ListenableProvider<PopularMoviesProvider>(
               create: (context) => PopularMoviesProvider()),
+          ListenableProvider<UpcomingMoviesProvider>(
+              create: (context) => UpcomingMoviesProvider()),
         ],
         child: BaseContainer(
           height: double.infinity,
@@ -87,6 +91,9 @@ class HomeScreen extends StatelessWidget {
                     ..._buildTrendingList(),
                     vSpacer,
                     ..._buildPopularList(),
+                    vSpacer,
+                    const UpcomingMoviesList(),
+                    vSpacer,
                   ],
                 ),
               ),

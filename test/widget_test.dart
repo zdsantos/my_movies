@@ -136,4 +136,32 @@ void main() {
     expect(result, isNotNull);
     expect(result, isNotEmpty);
   });
+
+  test('Get upcoming movies on BR', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result = await service.fetchUpcomingMovies("BR");
+
+    expect(result, isNotNull);
+    expect(result, isNotEmpty);
+  });
+
+  test('Get upcoming movies on BR pages', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result1 = await service.fetchUpcomingMovies("BR", page: 1);
+
+    expect(result1, isNotNull);
+    expect(result1, isNotEmpty);
+
+    var result2 = await service.fetchUpcomingMovies("BR", page: 2);
+
+    expect(result1, isNotNull);
+    expect(result1, isNotEmpty);
+
+    for (var item in result1) {
+      var result = result2.every((element) => element.id != item.id);
+      expect(result, isTrue);
+    }
+  });
 }

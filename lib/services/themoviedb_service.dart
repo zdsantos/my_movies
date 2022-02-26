@@ -85,6 +85,31 @@ class TheMovieDBService {
     }
   }
 
+  Future<List<Movie>> fetchUpcomingMovies(String region,
+      {int page = 1, String language = LanguageCode.pt_BR}) async {
+    final httpClient = http.Client();
+
+    String path = "/3/movie/upcoming";
+
+    var response = await httpClient.get(_buildUrl(
+      path,
+      <String, String>{
+        "region": region,
+        "language": language,
+        "page": page.toString(),
+      },
+    ));
+
+    if (response.statusCode == 200) {
+      final body = (json.decode(response.body)["results"]) as List;
+      var result = body.map((e) => Movie.fromJson(e)).toList();
+
+      return _sort(result);
+    } else {
+      throw Exception('error on: _fetchUpcoming');
+    }
+  }
+
   Future<List<Movie>> fetchPopularByRegion(String region,
       {int page = 1, String language = LanguageCode.pt_BR}) async {
     final httpClient = http.Client();
