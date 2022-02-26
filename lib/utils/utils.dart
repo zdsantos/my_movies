@@ -61,7 +61,8 @@ double castDoubleFromJson(dynamic value) {
   return value is int ? value.toDouble() : value;
 }
 
-void showInfoSnakbar(BuildContext context, String text) {
+void showInfoSnakbar(BuildContext context, String text,
+    {bool isError = false}) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(
@@ -69,9 +70,11 @@ void showInfoSnakbar(BuildContext context, String text) {
         text,
         textAlign: TextAlign.center,
       ),
-      backgroundColor: kDarkColor.withOpacity(0.5),
+      backgroundColor: !isError
+          ? kDarkColor.withOpacity(0.5)
+          : kPrimaryLightColor.withOpacity(0.5),
       behavior: SnackBarBehavior.floating,
-      duration: const Duration(seconds: 2),
+      duration: Duration(seconds: (!isError ? 2 : 3)),
       shape: const StadiumBorder(),
       margin: EdgeInsets.only(
           left: defaultMarginSize * 4,

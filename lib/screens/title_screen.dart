@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:my_movies/components/genres_list.dart';
+import 'package:my_movies/models/cast_crew_member.dart';
 import 'package:my_movies/models/movie.dart';
+import 'package:my_movies/models/movie_video.dart';
 import 'package:my_movies/providers/provider_state.dart';
 import 'package:my_movies/providers/title_provider.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
@@ -14,7 +15,9 @@ import 'package:my_movies/utils/utils.dart';
 import 'package:my_movies/widgets/base_container.dart';
 import 'package:my_movies/widgets/section_divider.dart';
 import 'package:my_movies/widgets/solid_icon_button.dart';
+import 'package:my_movies/widgets/tag.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TitleScreen extends StatefulWidget {
   TitleScreen({Key? key, required Movie title}) : super(key: key) {
@@ -28,6 +31,19 @@ class TitleScreen extends StatefulWidget {
 }
 
 class _TitleScreenState extends State<TitleScreen> {
+  void _launchVideo(List<MovieVideo> videos) {
+    int i = 0;
+    do {
+      try {
+        launch(TheMovieDBService.buildVideoUrl(videos[i].key));
+        return;
+      } catch (e) {
+        i++;
+      }
+    } while (i <= videos.length);
+    showInfoSnakbar(context, "Não foi possível abrir o vídeo", isError: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -42,7 +58,7 @@ class _TitleScreenState extends State<TitleScreen> {
 
           switch (provider.state) {
             case ProviderState.success:
-              return _buildTitleView(provider.movie);
+              return _buildTitleView(provider);
             case ProviderState.error:
               return Center(
                 child: const Text("error").error(),
@@ -58,7 +74,7 @@ class _TitleScreenState extends State<TitleScreen> {
     );
   }
 
-  Widget _buildTitleView(Movie movie) {
+  Widget _buildTitleView(TitleProvider provider) {
     return Stack(
       children: [
         SingleChildScrollView(
@@ -66,18 +82,19 @@ class _TitleScreenState extends State<TitleScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildBanner(movie),
+              _buildBanner(provider),
               vSpacerSmall,
-              GenresList(genres: movie.genres),
-              Padding(
-                padding: defaultHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildOverviewSection(movie),
-                    _baseInfosSection(movie),
-                  ],
-                ),
+              GenresList(genres: provider.movie.genres),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildOverviewSection(provider.movie),
+                  _buildBaseInfosSection(provider.movie),
+                  _buildCreditsList(provider),
+                  SizedBox(
+                    height: defaultPaddingSize * 4,
+                  ),
+                ],
               ),
             ],
           ),
@@ -102,7 +119,7 @@ class _TitleScreenState extends State<TitleScreen> {
     );
   }
 
-  Stack _buildBanner(Movie movie) {
+  Stack _buildBanner(TitleProvider provider) {
     return Stack(
       children: [
         AspectRatio(
@@ -114,9 +131,10 @@ class _TitleScreenState extends State<TitleScreen> {
             child: Image(
                 fit: BoxFit.cover,
                 image: NetworkImage(TheMovieDBService.buildBannerImageUrl(
-                    movie.backdropPath ?? movie.posterPath))),
+                    provider.movie.backdropPath ?? provider.movie.posterPath))),
           ),
         ),
+        _buildVideoButton(provider.videos),
         Positioned(
           bottom: 0,
           left: 0,
@@ -134,7 +152,7 @@ class _TitleScreenState extends State<TitleScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  movie.title,
+                  provider.movie.title,
                 ).h2(),
                 vSpacerMin
               ],
@@ -145,73 +163,176 @@ class _TitleScreenState extends State<TitleScreen> {
     );
   }
 
-  Widget _buildOverviewSection(Movie movie) {
-    return movie.overview!.isNotEmpty
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SectionDivider(),
-              Text(movie.overview!).body(),
-            ],
+  Widget _buildVideoButton(List<MovieVideo> videos) {
+    return videos.isNotEmpty
+        ? Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Center(
+              child: IconButton(
+                iconSize: 60,
+                icon: Icon(
+                  Icons.play_circle_fill_rounded,
+                  color: kDarkColor.withOpacity(0.8),
+                ),
+                onPressed: () {
+                  _launchVideo(videos);
+                },
+              ),
+            ),
           )
         : Container();
   }
 
-  Widget _baseInfosSection(Movie movie) {
+  Widget _buildOverviewSection(Movie movie) {
+    return movie.overview!.isNotEmpty
+        ? Padding(
+            padding: defaultHPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SectionDivider(),
+                Text(movie.overview!).body(),
+              ],
+            ),
+          )
+        : Container();
+  }
+
+  Widget _buildBaseInfosSection(Movie movie) {
+    return Padding(
+      padding: defaultHPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionDivider(),
+          Text.rich(
+            TextSpan(
+              text: "Avaliação: ",
+              style:
+                  StyledTexts.bodyStyle().copyWith(fontWeight: FontWeight.w600),
+              children: [
+                TextSpan(
+                  text:
+                      "${movie.voteAverage.toString()} (de ${movie.voteCount} avaliações)",
+                  style: StyledTexts.bodyStyle()
+                      .copyWith(fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+          ),
+          movie.releaseDate != null
+              ? Text.rich(
+                  TextSpan(
+                    text: "Ano: ",
+                    style: StyledTexts.bodyStyle()
+                        .copyWith(fontWeight: FontWeight.w600),
+                    children: [
+                      TextSpan(
+                        text: DateFormat("MMM/yyyy").format(movie.releaseDate!),
+                        style: StyledTexts.bodyStyle()
+                            .copyWith(fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
+          movie.runtime != null
+              ? Text.rich(
+                  TextSpan(
+                    text: "Duração: ",
+                    style: StyledTexts.bodyStyle()
+                        .copyWith(fontWeight: FontWeight.w600),
+                    children: [
+                      TextSpan(
+                        text: movie.runtime.toString(),
+                        style: StyledTexts.bodyStyle()
+                            .copyWith(fontWeight: FontWeight.w400),
+                        children: const [
+                          TextSpan(text: " minutos"),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCreditsList(TitleProvider provider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionDivider(),
-        Text.rich(
-          TextSpan(
-            text: "Avaliação: ",
-            style:
-                StyledTexts.bodyStyle().copyWith(fontWeight: FontWeight.w600),
-            children: [
-              TextSpan(
-                text: movie.voteAverage.toString(),
-                style: StyledTexts.bodyStyle()
-                    .copyWith(fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
-        ),
-        movie.releaseDate != null
-            ? Text.rich(
-                TextSpan(
-                  text: "Ano: ",
-                  style: StyledTexts.bodyStyle()
-                      .copyWith(fontWeight: FontWeight.w600),
-                  children: [
-                    TextSpan(
-                      text: movie.releaseDate!.year.toString(),
-                      style: StyledTexts.bodyStyle()
-                          .copyWith(fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
+        provider.directors.isNotEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: defaultHPadding,
+                    child: const Text("Dirigido por").body(
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                  ),
+                  _buildCastCrewList(provider.directors)
+                ],
               )
             : Container(),
-        movie.runtime != null
-            ? Text.rich(
-                TextSpan(
-                  text: "Duração: ",
-                  style: StyledTexts.bodyStyle()
-                      .copyWith(fontWeight: FontWeight.w600),
-                  children: [
-                    TextSpan(
-                      text: movie.runtime.toString(),
-                      style: StyledTexts.bodyStyle()
-                          .copyWith(fontWeight: FontWeight.w400),
-                      children: const [
-                        TextSpan(text: " minutos"),
-                      ],
-                    ),
-                  ],
-                ),
+        provider.screenplayers.isNotEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: defaultHPadding,
+                    child: const Text("Roterizado por").body(
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                  ),
+                  _buildCastCrewList(provider.screenplayers)
+                ],
+              )
+            : Container(),
+        provider.credits.cast.isNotEmpty
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: defaultHPadding,
+                    child: const Text("Elenco").body(
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                  ),
+                  _buildCastCrewList(provider.credits.cast)
+                ],
               )
             : Container(),
       ],
+    );
+  }
+
+  Widget _buildCastCrewList(List<CastCrewMember> list) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Wrap(
+        spacing: defaultPaddingSize / 2,
+        children: [
+          vSpacerSmall,
+          ...list
+              .map(
+                (c) => Tag(
+                  text: c.name,
+                  info: c.character,
+                  onPressed: () {},
+                  avatarImage: NetworkImage(
+                    TheMovieDBService.buildImageUrl(c.profilePath),
+                  ),
+                ),
+              )
+              .toList(),
+        ],
+      ),
     );
   }
 }

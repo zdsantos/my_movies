@@ -5,6 +5,8 @@ import 'package:my_movies/models/genre.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_movies/models/language.dart';
 import 'package:my_movies/models/movie.dart';
+import 'package:my_movies/models/movie_credits.dart';
+import 'package:my_movies/models/movie_video.dart';
 
 class TheMovieDBService {
   TheMovieDBService(this._apiKey);
@@ -132,51 +134,40 @@ class TheMovieDBService {
     }
   }
 
-  Future<List<Movie>> mockMovies() async {
-    Future.delayed(const Duration(seconds: 5));
+  Future<MovieCredits> fetchMovieCredits(int movieId,
+      {String language = LanguageCode.pt_BR}) async {
+    final httpClient = http.Client();
 
-    return <Movie>[
-      Movie(
-        adult: false,
-        id: 550,
-        originalTitle: "Fight Club",
-        releaseDate: DateTime.parse("1999-10-15"),
-        status: "Released",
-        title: "Fight Club",
-        posterPath: "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
-        popularity: 5855.3,
-        genres: [
-          const Genre(id: 18, name: "Drama"),
-        ],
-        backdropPath: "/rr7E0NoGKxvbkb89eR1GwfoYjpA.jpg",
-        overview:
-            "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
-        runtime: 139,
-        voteAverage: 8.4,
-        voteCount: 23536,
-      ),
-      Movie(
-        adult: false,
-        id: 634649,
-        originalTitle: "Spider-Man: No Way Home",
-        releaseDate: DateTime.parse("2021-12-15"),
-        status: "Released",
-        title: "Spider-Man: No Way Home",
-        posterPath: "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-        popularity: 6575.499,
-        genres: [
-          const Genre(id: 28, name: "Action"),
-          const Genre(id: 12, name: "Adventure"),
-          const Genre(id: 878, name: "Science Fiction"),
-        ],
-        backdropPath: "/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg",
-        overview:
-            "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
-        runtime: 148,
-        voteAverage: 8.3,
-        voteCount: 8296,
-      ),
-    ];
+    var response = await httpClient.get(
+      _buildUrl(
+          "/3/movie/$movieId/credits", <String, String>{"language": language}),
+    );
+
+    if (response.statusCode == 200) {
+      final result = MovieCredits.fromJson(json.decode(response.body));
+      return result;
+    } else {
+      throw Exception('error on: fetchMovieCredits#$movieId');
+    }
+  }
+
+  Future<List<MovieVideo>> fetchMovieVideos(int movieId,
+      {String language = LanguageCode.pt_BR}) async {
+    final httpClient = http.Client();
+
+    var response = await httpClient.get(
+      _buildUrl(
+          "/3/movie/$movieId/videos", <String, String>{"language": language}),
+    );
+
+    if (response.statusCode == 200) {
+      final body = (json.decode(response.body)["results"]) as List;
+      var result = body.map((e) => MovieVideo.fromJson(e)).toList();
+
+      return result;
+    } else {
+      throw Exception('error on: fetchMovieVideos#$movieId');
+    }
   }
 
   static String buildImageUrl(String? path) {
@@ -191,6 +182,10 @@ class TheMovieDBService {
       return "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/$path";
     }
     return "https://via.placeholder.com/533x300?text=Imagem+n%C3%A3o+dispon%C3%ADvel";
+  }
+
+  static String buildVideoUrl(String key) {
+    return "https://www.youtube.com/watch?v=$key";
   }
 
   Uri _buildUrl(String path, Map<String, String> queryParameters) {

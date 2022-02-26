@@ -3,16 +3,18 @@ import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/styles.dart';
 
 class Tag extends StatelessWidget {
-  final String text;
-  final ImageProvider<Object>? avatarImage;
-  final void Function()? onPressed;
-
-  const Tag({
+  Tag({
     Key? key,
     required this.text,
+    this.info,
     this.avatarImage,
     this.onPressed,
   }) : super(key: key);
+
+  final String text;
+  String? info;
+  final ImageProvider<Object>? avatarImage;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,15 @@ class Tag extends StatelessWidget {
               backgroundImage: avatarImage,
             )
           : null,
-      label: Text(text).body(style: const TextStyle(color: kPrimaryColor)),
+      label: info != null
+          ? Column(
+              children: [
+                Text(text).body(style: const TextStyle(color: kPrimaryColor)),
+                Text(info!).body(
+                    style: const TextStyle(fontSize: 14, color: kGrayColor))
+              ],
+            )
+          : Text(text).body(style: const TextStyle(color: kPrimaryColor)),
     );
   }
 }

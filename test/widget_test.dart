@@ -114,4 +114,26 @@ void main() {
     expect(result, isNotNull);
     expect(result, isNotEmpty);
   });
+
+  test('Get movie credits', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result = await service.fetchMovieCredits(767);
+
+    expect(result, isNotNull);
+    expect(result.id, 767);
+    expect(result.cast, isNotNull);
+    expect(result.cast, isNotEmpty);
+    expect(result.crew, isNotNull);
+    expect(result.crew, isNotEmpty);
+  });
+
+  test('Get movie videos', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result = await service.fetchMovieVideos(767);
+
+    expect(result, isNotNull);
+    expect(result, isNotEmpty);
+  });
 }
