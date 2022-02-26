@@ -34,7 +34,7 @@ class Movie {
 
   bool adult;
   String? backdropPath;
-  double budget;
+  double? budget;
   List<Genre> genres;
   String? homepage;
   int id;
@@ -46,8 +46,8 @@ class Movie {
   String? posterPath;
   List<Company> productionCompanies;
   List<Country> productionCountries;
-  DateTime releaseDate;
-  double revenue;
+  DateTime? releaseDate;
+  double? revenue;
   int? runtime;
   List<Language> spokenLanguages;
   String? status; // to enum
@@ -86,7 +86,9 @@ class Movie {
       adult: data["adult"] as bool,
       id: data["id"] as int,
       originalTitle: data["original_title"],
-      releaseDate: DateTime.parse(data["release_date"]),
+      releaseDate: data.containsKey("release_date")
+          ? DateTime.tryParse(data["release_date"])
+          : null,
       status: data.containsKey("status") ? data["status"] : null,
       title: data["title"],
       genres: genres,
@@ -99,9 +101,12 @@ class Movie {
       imdbId: data.containsKey("imdb_id") ? data["imdb_id"] : null,
       overview: data.containsKey("overview") ? data["overview"] : null,
       posterPath: data.containsKey("poster_path") ? data["poster_path"] : null,
-      runtime: data.containsKey("runtime") ? data["runtime"] as int : null,
-      budget:
-          data.containsKey("budget") ? castDoubleFromJson(data["budget"]) : 0.0,
+      runtime: data.containsKey("runtime") && data["runtime"] != null
+          ? data["runtime"] as int
+          : null,
+      budget: data.containsKey("budget")
+          ? castDoubleFromJson(data["budget"])
+          : null,
       originalLanguage: data.containsKey("original_language")
           ? data["original_language"]
           : null,
@@ -110,7 +115,7 @@ class Movie {
           : 0.0,
       revenue: data.containsKey("revenue")
           ? castDoubleFromJson(data["revenue"])
-          : 0.0,
+          : null,
       tagLine: data.containsKey("tagline") ? data["tagline"] : null,
       video: data["video"] ? data["video"] as bool : false,
       voteAverage: data.containsKey("vote_average")

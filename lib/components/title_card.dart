@@ -5,6 +5,7 @@ import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/feature_flag.dart';
 import 'package:my_movies/utils/my_movies_icons_icons.dart';
 import 'package:my_movies/utils/styles.dart';
+import 'package:my_movies/utils/utils.dart';
 
 class TitleCard extends StatefulWidget {
   const TitleCard({Key? key, required this.title}) : super(key: key);
@@ -21,21 +22,16 @@ class _TitleCardState extends State<TitleCard> {
     Navigator.pushNamed(context, "/title", arguments: widget.title);
   }
 
+  void onCardLongPress() {
+    showInfoSnakbar(context, widget.title.title);
+  }
+
   void onFavoriteTap() {
     print("favorite: ${widget.title.id}");
   }
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl =
-        "https://colegioeducador.com.br/wp-content/uploads/2019/04/placeholder-image.jpg";
-
-    if (widget.title.posterPath != null) {
-      imageUrl = TheMovieDBService.buildImageUrl(widget.title.posterPath!);
-    } else if (widget.title.backdropPath != null) {
-      imageUrl = TheMovieDBService.buildImageUrl(widget.title.backdropPath!);
-    }
-
     return Padding(
       padding: EdgeInsets.all(defaultPaddingSize / 2),
       child: SizedBox(
@@ -54,7 +50,8 @@ class _TitleCardState extends State<TitleCard> {
                   child: ClipRRect(
                     borderRadius: defaultBorder,
                     child: Image(
-                      image: NetworkImage(imageUrl),
+                      image: NetworkImage(TheMovieDBService.buildImageUrl(
+                          widget.title.posterPath)),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -65,6 +62,7 @@ class _TitleCardState extends State<TitleCard> {
                     child: InkWell(
                       borderRadius: defaultBorder,
                       onTap: onCardTap,
+                      onLongPress: onCardLongPress,
                     ),
                   ),
                 ),

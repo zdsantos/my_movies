@@ -10,7 +10,7 @@ class TitleProvider with ChangeNotifier {
     _loadData();
   }
 
-  int id;
+  final int id;
   late Movie movie;
   late TheMovieDBService _service;
   ProviderState _state = ProviderState.initial;

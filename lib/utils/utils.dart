@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:my_movies/utils/colors.dart';
+import 'package:my_movies/utils/styles.dart';
 
 String cleanId(String id) {
   return id.replaceAll('/title/', '').replaceAll('/', '');
@@ -58,4 +59,23 @@ Widget defaultProgressIndicator() {
 
 double castDoubleFromJson(dynamic value) {
   return value is int ? value.toDouble() : value;
+}
+
+void showInfoSnakbar(BuildContext context, String text) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(
+      content: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: kDarkColor.withOpacity(0.5),
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 2),
+      shape: const StadiumBorder(),
+      margin: EdgeInsets.only(
+          left: defaultMarginSize * 4,
+          right: defaultMarginSize * 4,
+          bottom: defaultMarginSize),
+    ));
 }

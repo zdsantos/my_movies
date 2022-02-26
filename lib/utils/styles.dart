@@ -79,8 +79,11 @@ BoxShadow boxShadow = const BoxShadow(
 
 /// Borders
 
-BorderRadius roundedBorder = BorderRadius.circular(50);
-BorderRadius defaultBorder = BorderRadius.circular(10);
+const double roundedBorderSize = 50;
+const double defaultBorderSize = 10;
+
+BorderRadius roundedBorder = BorderRadius.circular(roundedBorderSize);
+BorderRadius defaultBorder = BorderRadius.circular(defaultBorderSize);
 
 /// Sizes and Spaces
 

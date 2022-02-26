@@ -37,6 +37,7 @@ class BoxTextField extends StatelessWidget {
       cursorColor: kWhiteColor,
       cursorHeight: 22,
       obscureText: isPassword,
+      onSubmitted: (_) => trailingTapped!.call(),
       decoration: InputDecoration(
         hintText: placeholder,
         contentPadding: EdgeInsets.symmetric(

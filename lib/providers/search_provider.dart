@@ -6,15 +6,14 @@ import 'package:my_movies/providers/provider_state.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
 
 class SearchProvider with ChangeNotifier {
-  GenreProvider(SearchData searchData) {
+  SearchProvider(this.searchData) {
     _service = GetIt.I.get<TheMovieDBService>();
     _loadData();
-    data = searchData;
   }
 
-  List<Movie> movie = [];
+  final SearchData searchData;
+  late List<Movie> resultList = [];
   late TheMovieDBService _service;
-  late SearchData data;
   ProviderState _state = ProviderState.initial;
 
   _loadData() async {
@@ -22,13 +21,13 @@ class SearchProvider with ChangeNotifier {
     notifyListeners();
     try {
       var result = <Movie>[];
-      if (data.searchTerm != null) {
-        result = await _service.fetchMoviesByTerm(data.searchTerm!);
-      } else if (data.searchGenre != null) {
-        // search by genre
+      if (searchData.searchTerm != null) {
+        result = await _service.fetchMoviesByTerm(searchData.searchTerm!);
+      } else if (searchData.searchGenre != null) {
+        result = await _service.fetchMoviesByTerm(searchData.searchGenre!.name);
       }
 
-      movie = result;
+      resultList = result;
       _state = ProviderState.success;
     } catch (e) {
       print(e);

@@ -114,7 +114,7 @@ class _TitleScreenState extends State<TitleScreen> {
             child: Image(
                 fit: BoxFit.cover,
                 image: NetworkImage(TheMovieDBService.buildBannerImageUrl(
-                    movie.backdropPath!))),
+                    movie.backdropPath ?? movie.posterPath))),
           ),
         ),
         Positioned(
@@ -146,13 +146,15 @@ class _TitleScreenState extends State<TitleScreen> {
   }
 
   Widget _buildOverviewSection(Movie movie) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SectionDivider(),
-        Text(movie.overview!).body(),
-      ],
-    );
+    return movie.overview!.isNotEmpty
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SectionDivider(),
+              Text(movie.overview!).body(),
+            ],
+          )
+        : Container();
   }
 
   Widget _baseInfosSection(Movie movie) {
@@ -174,37 +176,41 @@ class _TitleScreenState extends State<TitleScreen> {
             ],
           ),
         ),
-        Text.rich(
-          TextSpan(
-            text: "Ano: ",
-            style:
-                StyledTexts.bodyStyle().copyWith(fontWeight: FontWeight.w600),
-            children: [
-              TextSpan(
-                text: movie.releaseDate.year.toString(),
-                style: StyledTexts.bodyStyle()
-                    .copyWith(fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
-        ),
-        Text.rich(
-          TextSpan(
-            text: "Duração: ",
-            style:
-                StyledTexts.bodyStyle().copyWith(fontWeight: FontWeight.w600),
-            children: [
-              TextSpan(
-                text: movie.runtime.toString(),
-                style: StyledTexts.bodyStyle()
-                    .copyWith(fontWeight: FontWeight.w400),
-                children: const [
-                  TextSpan(text: " minutos"),
-                ],
-              ),
-            ],
-          ),
-        ),
+        movie.releaseDate != null
+            ? Text.rich(
+                TextSpan(
+                  text: "Ano: ",
+                  style: StyledTexts.bodyStyle()
+                      .copyWith(fontWeight: FontWeight.w600),
+                  children: [
+                    TextSpan(
+                      text: movie.releaseDate!.year.toString(),
+                      style: StyledTexts.bodyStyle()
+                          .copyWith(fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              )
+            : Container(),
+        movie.runtime != null
+            ? Text.rich(
+                TextSpan(
+                  text: "Duração: ",
+                  style: StyledTexts.bodyStyle()
+                      .copyWith(fontWeight: FontWeight.w600),
+                  children: [
+                    TextSpan(
+                      text: movie.runtime.toString(),
+                      style: StyledTexts.bodyStyle()
+                          .copyWith(fontWeight: FontWeight.w400),
+                      children: const [
+                        TextSpan(text: " minutos"),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : Container(),
       ],
     );
   }

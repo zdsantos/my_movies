@@ -179,12 +179,18 @@ class TheMovieDBService {
     ];
   }
 
-  static String buildImageUrl(String path) {
-    return "https://image.tmdb.org/t/p/w300_and_h450_bestv2/$path";
+  static String buildImageUrl(String? path) {
+    if (path != null) {
+      return "https://image.tmdb.org/t/p/w300_and_h450_bestv2/$path";
+    }
+    return "https://via.placeholder.com/450x300?text=Imagem+n%C3%A3o+dispon%C3%ADvel";
   }
 
-  static String buildBannerImageUrl(String path) {
-    return "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/$path";
+  static String buildBannerImageUrl(String? path) {
+    if (path != null) {
+      return "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/$path";
+    }
+    return "https://via.placeholder.com/533x300?text=Imagem+n%C3%A3o+dispon%C3%ADvel";
   }
 
   Uri _buildUrl(String path, Map<String, String> queryParameters) {
