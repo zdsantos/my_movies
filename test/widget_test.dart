@@ -105,4 +105,13 @@ void main() {
       expect(result, isTrue);
     }
   });
+
+  test('Get search movies by term', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result = await service.fetchMoviesByTerm("harry");
+
+    expect(result, isNotNull);
+    expect(result, isNotEmpty);
+  });
 }
