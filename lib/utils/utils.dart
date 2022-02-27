@@ -87,3 +87,23 @@ void showInfoSnakbar(BuildContext context, String text,
 String formatCurrency(double value) {
   return NumberFormat.currency(symbol: "\$").format(value);
 }
+
+DateTime calcAge(DateTime birthday) {
+  final now = DateTime.now();
+
+  int years = now.year - birthday.year;
+  int months = now.month - birthday.month;
+  int days = now.day - birthday.day;
+
+  if (months < 0 || (months == 0 && days < 0)) {
+    years--;
+    months += (days < 0 ? 11 : 12);
+  }
+
+  if (days < 0) {
+    final monthAgo = DateTime(now.year, now.month - 1, birthday.day);
+    days = now.difference(monthAgo).inDays + 1;
+  }
+
+  return DateTime(years, months, days);
+}

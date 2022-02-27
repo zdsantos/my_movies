@@ -164,4 +164,27 @@ void main() {
       expect(result, isTrue);
     }
   });
+
+  test('Get person', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result = await service.getPerson(10980);
+
+    expect(result, isNotNull);
+    expect(result.id, 10980);
+    expect(result.name, "Daniel Radcliffe");
+  });
+
+  test('Get person credits', () async {
+    TheMovieDBService service = TheMovieDBService(apiKey);
+
+    var result = await service.fetchPersonCredits(10980);
+
+    expect(result, isNotNull);
+    expect(result.id, 10980);
+    expect(result.cast, isNotNull);
+    expect(result.cast, isNotEmpty);
+    expect(result.crew, isNotNull);
+    expect(result.crew, isNotEmpty);
+  });
 }

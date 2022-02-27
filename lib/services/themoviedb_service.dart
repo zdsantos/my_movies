@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
 import 'package:my_movies/models/genre.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_movies/models/language.dart';
 import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/models/movie_credits.dart';
 import 'package:my_movies/models/movie_video.dart';
+import 'package:my_movies/models/person.dart';
+import 'package:my_movies/models/person_credits.dart';
 
 class TheMovieDBService {
   TheMovieDBService(this._apiKey);
@@ -144,18 +145,19 @@ class TheMovieDBService {
     }
   }
 
-  Future<Movie> getMovie(int id, {String language = LanguageCode.pt_BR}) async {
+  Future<Movie> getMovie(int movieId,
+      {String language = LanguageCode.pt_BR}) async {
     final httpClient = http.Client();
 
     var response = await httpClient.get(
-      _buildUrl("/3/movie/$id", <String, String>{"language": language}),
+      _buildUrl("/3/movie/$movieId", <String, String>{"language": language}),
     );
 
     if (response.statusCode == 200) {
       final result = Movie.fromJson(json.decode(response.body));
       return result;
     } else {
-      throw Exception('error on: getMovie#$id');
+      throw Exception('error on: getMovie#$movieId');
     }
   }
 
@@ -192,6 +194,41 @@ class TheMovieDBService {
       return result;
     } else {
       throw Exception('error on: fetchMovieVideos#$movieId');
+    }
+  }
+
+  Future<Person> getPerson(int personId,
+      {String language = LanguageCode.pt_BR}) async {
+    final httpClient = http.Client();
+
+    String path = "/3/person/$personId";
+
+    var response = await httpClient
+        .get(_buildUrl(path, <String, String>{"language": language}));
+
+    if (response.statusCode == 200) {
+      var result = Person.fromJson(json.decode(response.body));
+
+      return result;
+    } else {
+      throw Exception('error on: getPerson#$personId');
+    }
+  }
+
+  Future<PersonCredits> fetchPersonCredits(int personId,
+      {String language = LanguageCode.pt_BR}) async {
+    final httpClient = http.Client();
+
+    var response = await httpClient.get(
+      _buildUrl("/3/person/$personId/movie_credits",
+          <String, String>{"language": language}),
+    );
+
+    if (response.statusCode == 200) {
+      final result = PersonCredits.fromJson(json.decode(response.body));
+      return result;
+    } else {
+      throw Exception('error on: fetchPersonCredits#$personId');
     }
   }
 
