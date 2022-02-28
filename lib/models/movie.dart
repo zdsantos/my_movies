@@ -2,9 +2,10 @@ import 'package:my_movies/models/company.dart';
 import 'package:my_movies/models/country.dart';
 import 'package:my_movies/models/genre.dart';
 import 'package:my_movies/models/language.dart';
+import 'package:my_movies/models/model_base.dart';
 import 'package:my_movies/utils/utils.dart';
 
-class Movie {
+class Movie extends ModelBase {
   Movie({
     required this.adult,
     this.backdropPath,
@@ -123,5 +124,10 @@ class Movie {
           : 0.0,
       voteCount: data.containsKey("vote_count") ? data["vote_count"] as int : 0,
     );
+  }
+
+  @override
+  ModelBase fromJson(Map<String, dynamic> data) {
+    return Movie.fromJson(data);
   }
 }

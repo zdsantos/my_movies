@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_movies/components/genres_list.dart';
+import 'package:my_movies/components/popular_movies_list.dart';
 import 'package:my_movies/components/titles_list.dart';
+import 'package:my_movies/components/trending_movies_list.dart';
 import 'package:my_movies/components/upcoming_movies_list.dart';
 import 'package:my_movies/models/search_data.dart';
 import 'package:my_movies/providers/genre_provider.dart';
@@ -88,10 +90,10 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     vSpacer,
-                    ..._buildTrendingList(),
-                    vSpacer,
-                    ..._buildPopularList(),
-                    vSpacer,
+                    const TrendingMoviesList(),
+                    // vSpacer,
+                    const PopularMoviesList(),
+                    // vSpacer,
                     const UpcomingMoviesList(),
                     vSpacer,
                   ],
@@ -108,62 +110,5 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ));
-  }
-
-  List<Widget> _buildTrendingList() {
-    return [
-      Padding(
-        padding: defaultHPadding,
-        child: const Text("Tendências").h3(),
-      ),
-      Center(
-        child: Builder(
-          builder: (context) {
-            final trendingProvider =
-                Provider.of<TrendingMoviesProvider>(context);
-            switch (trendingProvider.state) {
-              case ProviderState.success:
-                return TitlesList(titles: trendingProvider.movies);
-              case ProviderState.error:
-                return Center(
-                  child: const Text("error on fetch trending").error(),
-                );
-              case ProviderState.loading:
-                return Center(child: defaultProgressIndicator());
-              default:
-                return Center(child: defaultProgressIndicator());
-            }
-          },
-        ),
-      ),
-    ];
-  }
-
-  List<Widget> _buildPopularList() {
-    return [
-      Padding(
-        padding: defaultHPadding,
-        child: const Text("Populares").h3(),
-      ),
-      Center(
-        child: Builder(
-          builder: (context) {
-            final popularProvider = Provider.of<PopularMoviesProvider>(context);
-            switch (popularProvider.state) {
-              case ProviderState.success:
-                return TitlesList(titles: popularProvider.movies);
-              case ProviderState.error:
-                return Center(
-                  child: const Text("error on fetch popular").error(),
-                );
-              case ProviderState.loading:
-                return Center(child: defaultProgressIndicator());
-              default:
-                return Center(child: defaultProgressIndicator());
-            }
-          },
-        ),
-      ),
-    ];
   }
 }

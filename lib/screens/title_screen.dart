@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_movies/components/cast_crew_list.dart';
@@ -68,6 +69,7 @@ class _TitleScreenState extends State<TitleScreen> {
               );
             case ProviderState.initial:
             case ProviderState.loading:
+            default:
               return Center(
                 child: defaultProgressIndicator(),
               );
@@ -131,10 +133,12 @@ class _TitleScreenState extends State<TitleScreen> {
             decoration: BoxDecoration(
               boxShadow: [boxShadow],
             ),
-            child: Image(
-                fit: BoxFit.cover,
-                image: NetworkImage(TheMovieDBService.buildBannerImageUrl(
-                    provider.movie.backdropPath ?? provider.movie.posterPath))),
+            child: CachedNetworkImage(
+              imageUrl: TheMovieDBService.buildBannerImageUrl(
+                  provider.movie.backdropPath ?? provider.movie.posterPath),
+              placeholder: (context, _) => defaultProgressIndicator(),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         _buildVideoButton(provider.videos),

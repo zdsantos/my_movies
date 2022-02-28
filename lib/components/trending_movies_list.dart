@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_movies/components/titles_list_with_provider.dart';
-import 'package:my_movies/providers/upcoming_movies_provider.dart';
+import 'package:my_movies/providers/trending_movies_provider.dart';
 import 'package:my_movies/utils/styles.dart';
 
-class UpcomingMoviesList extends StatelessWidget {
-  const UpcomingMoviesList({
+class TrendingMoviesList extends StatelessWidget {
+  const TrendingMoviesList({
     Key? key,
   }) : super(key: key);
 
@@ -15,10 +15,10 @@ class UpcomingMoviesList extends StatelessWidget {
       children: [
         Padding(
           padding: defaultHPadding,
-          child: const Text("Próximas estreias").h3(),
+          child: const Text("Tendências").h3(),
         ),
         Center(
-          child: TitlesListWithProvider<UpcomingMoviesProvider>(),
+          child: TitlesListWithProvider<TrendingMoviesProvider>(),
         ),
       ],
     );

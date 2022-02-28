@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
@@ -18,7 +19,7 @@ class TitleCard extends StatefulWidget {
 
 class _TitleCardState extends State<TitleCard> {
   void onCardTap() {
-    print("click: ${widget.title.id}");
+    debugPrint("click: ${widget.title.id}");
     Navigator.pushNamed(context, "/title", arguments: widget.title);
   }
 
@@ -27,7 +28,7 @@ class _TitleCardState extends State<TitleCard> {
   }
 
   void onFavoriteTap() {
-    print("favorite: ${widget.title.id}");
+    debugPrint("favorite: ${widget.title.id}");
   }
 
   @override
@@ -35,7 +36,7 @@ class _TitleCardState extends State<TitleCard> {
     return Padding(
       padding: EdgeInsets.all(defaultPaddingSize / 2),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.4,
+        width: MediaQuery.of(context).size.width * 0.3,
         child: AspectRatio(
           aspectRatio: 0.675,
           child: Container(
@@ -49,9 +50,10 @@ class _TitleCardState extends State<TitleCard> {
                   bottom: 0.0,
                   child: ClipRRect(
                     borderRadius: defaultBorder,
-                    child: Image(
-                      image: NetworkImage(TheMovieDBService.buildImageUrl(
-                          widget.title.posterPath)),
+                    child: CachedNetworkImage(
+                      imageUrl: TheMovieDBService.buildImageUrl(
+                          widget.title.posterPath),
+                      placeholder: (context, _) => defaultProgressIndicator(),
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -1,18 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:my_movies/components/titles_list.dart';
-import 'package:my_movies/models/movie.dart';
+import 'package:my_movies/components/titles_list_with_provider.dart';
 import 'package:my_movies/models/search_data.dart';
-import 'package:my_movies/providers/provider_state.dart';
 import 'package:my_movies/providers/search_provider.dart';
-import 'package:my_movies/services/themoviedb_service.dart';
 import 'package:my_movies/utils/colors.dart';
 import 'package:my_movies/utils/feature_flag.dart';
 import 'package:my_movies/utils/my_movies_icons_icons.dart';
 import 'package:my_movies/utils/styles.dart';
-import 'package:my_movies/utils/utils.dart';
 import 'package:my_movies/widgets/base_container.dart';
 import 'package:my_movies/widgets/solid_icon_button.dart';
 import 'package:provider/provider.dart';
@@ -28,31 +21,13 @@ class SearchResultScreen extends StatelessWidget {
     return MultiProvider(
       providers: [
         ListenableProvider<SearchProvider>(
-            create: (context) => SearchProvider(searchData)),
+            create: (context) => SearchProvider(searchData))
       ],
       child: BaseContainer(
         height: double.infinity,
         child: Stack(
           children: [
-            Builder(
-              builder: (context) {
-                var provider = Provider.of<SearchProvider>(context);
-
-                switch (provider.state) {
-                  case ProviderState.success:
-                    return _buildResultList(provider.resultList);
-                  case ProviderState.error:
-                    return Center(
-                      child: const Text("error").error(),
-                    );
-                  case ProviderState.initial:
-                  case ProviderState.loading:
-                    return Center(
-                      child: defaultProgressIndicator(),
-                    );
-                }
-              },
-            ),
+            _buildResultList(),
             ffProfileEnable
                 ? Positioned(
                     child: SolidIconButton(
@@ -75,7 +50,7 @@ class SearchResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResultList(List<Movie> result) {
+  Widget _buildResultList() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -101,13 +76,11 @@ class SearchResultScreen extends StatelessWidget {
           ),
           vSpacerSmall,
           Center(
-            child: result.isNotEmpty
-                ? TitlesList(
-                    titles: result,
-                    orientation: Axis.vertical,
-                  )
-                : const Text("Nenhum resultado encontrado").body(),
-          ),
+            child: TitlesListWithProvider<SearchProvider>(
+              orientation: Axis.vertical,
+              verticalColumnsCount: 3,
+            ),
+          )
         ],
       ),
     );

@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:my_movies/models/genre.dart';
 
 class SearchData {
-  SearchData({this.searchTerm, this.searchGenre});
+  SearchData({this.searchTerm, this.searchGenre})
+      : assert((searchTerm != null && searchTerm.isNotEmpty) ||
+            (searchGenre != null && searchGenre.name.isNotEmpty));
 
   String? searchTerm;
   Genre? searchGenre;

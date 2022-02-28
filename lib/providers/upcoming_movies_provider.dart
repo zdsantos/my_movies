@@ -1,36 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:my_movies/models/movie.dart';
-import 'package:my_movies/providers/provider_state.dart';
+import 'package:my_movies/providers/movies_list_provider.dart';
 import 'package:my_movies/services/themoviedb_service.dart';
 
-class UpcomingMoviesProvider with ChangeNotifier {
+class UpcomingMoviesProvider extends MoviesListProvider {
   UpcomingMoviesProvider() {
-    _service = GetIt.I.get<TheMovieDBService>();
-    _loadData();
-  }
+    var service = GetIt.I.get<TheMovieDBService>();
+    fetchFunction = (int page) => service.fetchUpcomingMovies("BR", page: page);
 
-  List<Movie> movies = [];
-  late TheMovieDBService _service;
-  ProviderState _state = ProviderState.initial;
-
-  _loadData() async {
-    _state = ProviderState.loading;
-    notifyListeners();
-    try {
-      var result = await _service.fetchUpcomingMovies("BR");
-      movies = result;
-      _state = ProviderState.success;
-    } catch (e) {
-      print(e);
-      _state = ProviderState.error;
-    }
-    notifyListeners();
-  }
-
-  ProviderState get state => _state;
-
-  void reload() {
-    _loadData();
+    fetchNextPage();
   }
 }

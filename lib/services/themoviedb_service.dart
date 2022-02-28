@@ -6,6 +6,7 @@ import 'package:my_movies/models/language.dart';
 import 'package:my_movies/models/movie.dart';
 import 'package:my_movies/models/movie_credits.dart';
 import 'package:my_movies/models/movie_video.dart';
+import 'package:my_movies/models/paged_result.dart';
 import 'package:my_movies/models/person.dart';
 import 'package:my_movies/models/person_credits.dart';
 
@@ -31,7 +32,7 @@ class TheMovieDBService {
     }
   }
 
-  Future<List<Movie>> fetchMoviesByTerm(String term,
+  Future<PagedResult<Movie>> fetchMoviesByTerm(String term,
       {int page = 1,
       bool includeAdult = false,
       String language = LanguageCode.pt_BR}) async {
@@ -50,22 +51,26 @@ class TheMovieDBService {
     );
 
     if (response.statusCode == 200) {
-      final body = (json.decode(response.body)["results"]) as List;
-      var result = body.map((e) => Movie.fromJson(e)).toList();
+      final result = PagedResult<Movie>.fromJson(
+          json.decode(response.body), Movie.fromJson);
 
-      return _sort(result);
+      return result;
     } else {
       throw Exception('error on: fetchMoviesByTerm');
     }
   }
 
-  Future<List<Movie>> fetchTrendingMovies(
-      {String timeWindow = "week", String language = LanguageCode.pt_BR}) {
-    return _fetchTrending("movie", timeWindow: timeWindow, language: language);
+  Future<PagedResult<Movie>> fetchTrendingMovies(
+      {String timeWindow = "week",
+      int page = 1,
+      String language = LanguageCode.pt_BR}) {
+    return _fetchTrending("movie",
+        page: page, timeWindow: timeWindow, language: language);
   }
 
-  Future<List<Movie>> _fetchTrending(String mediaType,
+  Future<PagedResult<Movie>> _fetchTrending(String mediaType,
       {String timeWindow = "week",
+      int page = 1,
       String language = LanguageCode.pt_BR}) async {
     final httpClient = http.Client();
 
@@ -73,20 +78,25 @@ class TheMovieDBService {
 
     String path = "/3/trending/$mediaType/$timeWindow";
 
-    var response = await httpClient
-        .get(_buildUrl(path, <String, String>{"language": language}));
+    var response = await httpClient.get(_buildUrl(
+      path,
+      <String, String>{
+        "language": language,
+        "page": page.toString(),
+      },
+    ));
 
     if (response.statusCode == 200) {
-      final body = (json.decode(response.body)["results"]) as List;
-      var result = body.map((e) => Movie.fromJson(e)).toList();
+      final result = PagedResult<Movie>.fromJson(
+          json.decode(response.body), Movie.fromJson);
 
-      return _sort(result);
+      return result;
     } else {
       throw Exception('error on: _fetchTrending#$mediaType');
     }
   }
 
-  Future<List<Movie>> fetchUpcomingMovies(String region,
+  Future<PagedResult<Movie>> fetchUpcomingMovies(String region,
       {int page = 1, String language = LanguageCode.pt_BR}) async {
     final httpClient = http.Client();
 
@@ -102,16 +112,16 @@ class TheMovieDBService {
     ));
 
     if (response.statusCode == 200) {
-      final body = (json.decode(response.body)["results"]) as List;
-      var result = body.map((e) => Movie.fromJson(e)).toList();
+      final result = PagedResult<Movie>.fromJson(
+          json.decode(response.body), Movie.fromJson);
 
-      return _sort(result);
+      return result;
     } else {
       throw Exception('error on: _fetchUpcoming');
     }
   }
 
-  Future<List<Movie>> fetchPopularByRegion(String region,
+  Future<PagedResult<Movie>> fetchPopularByRegion(String region,
       {int page = 1, String language = LanguageCode.pt_BR}) async {
     final httpClient = http.Client();
 
@@ -130,10 +140,10 @@ class TheMovieDBService {
       ));
 
       if (response.statusCode == 200) {
-        final body = (json.decode(response.body)["results"]) as List;
-        var result = body.map((e) => Movie.fromJson(e)).toList();
+        final result = PagedResult<Movie>.fromJson(
+            json.decode(response.body), Movie.fromJson);
 
-        return _sort(result);
+        return result;
       } else {
         final body = (json.decode(response.body));
         throw Exception(

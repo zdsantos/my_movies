@@ -26,7 +26,7 @@ class PersonProvider with ChangeNotifier {
 
       _state = ProviderState.success;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       _state = ProviderState.error;
     }
     notifyListeners();

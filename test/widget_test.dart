@@ -93,15 +93,21 @@ void main() {
     var result1 = await service.fetchPopularByRegion("BR", page: 1);
 
     expect(result1, isNotNull);
-    expect(result1, isNotEmpty);
+    expect(result1.page, 1);
+    expect(result1.totalPages, greaterThan(1));
+    expect(result1.data, isNotNull);
+    expect(result1.data, isNotEmpty);
 
     var result2 = await service.fetchPopularByRegion("BR", page: 2);
 
-    expect(result1, isNotNull);
-    expect(result1, isNotEmpty);
+    expect(result2, isNotNull);
+    expect(result2.page, 2);
+    expect(result2.totalPages, greaterThan(1));
+    expect(result2.data, isNotNull);
+    expect(result2.data, isNotEmpty);
 
-    for (var item in result1) {
-      var result = result2.every((element) => element.id != item.id);
+    for (var item in result1.data) {
+      var result = result2.data.every((element) => element.id != item.id);
       expect(result, isTrue);
     }
   });

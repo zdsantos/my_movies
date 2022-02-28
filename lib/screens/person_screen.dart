@@ -36,6 +36,7 @@ class PersonScreen extends StatelessWidget {
                 );
               case ProviderState.initial:
               case ProviderState.loading:
+              default:
                 return Center(
                   child: defaultProgressIndicator(),
                 );
