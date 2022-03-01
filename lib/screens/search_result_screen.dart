@@ -24,6 +24,7 @@ class SearchResultScreen extends StatelessWidget {
             create: (context) => SearchProvider(searchData))
       ],
       child: BaseContainer(
+        padding: EdgeInsets.only(top: defaultPaddingSize),
         height: double.infinity,
         child: Stack(
           children: [

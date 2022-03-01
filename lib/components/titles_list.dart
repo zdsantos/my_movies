@@ -27,7 +27,8 @@ class _TitlesListState extends State<TitlesList> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent &&
+          widget.onFinishScroll != null) {
         print("finish scroll horizontal");
         widget.onFinishScroll!.call();
       }

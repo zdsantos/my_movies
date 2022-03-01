@@ -97,7 +97,7 @@ class _TitleScreenState extends State<TitleScreen> {
                   _buildBaseInfosSection(provider.movie),
                   _buildCreditsList(provider),
                   SizedBox(
-                    height: defaultPaddingSize * 4,
+                    height: defaultPaddingSize * 2,
                   ),
                 ],
               ),
@@ -109,7 +109,7 @@ class _TitleScreenState extends State<TitleScreen> {
                 child:
                     SolidIconButton(icon: MyMoviesIcons.person, onTap: () {}),
                 right: defaultPaddingSize,
-                top: defaultPaddingSize,
+                top: defaultPaddingSize * 2,
               )
             : Container(),
         Positioned(
@@ -118,7 +118,7 @@ class _TitleScreenState extends State<TitleScreen> {
                   color: kWhiteColor, size: defaultIconSize),
               onPressed: () => Navigator.pop(context)),
           left: defaultPaddingSize / 2,
-          top: defaultPaddingSize,
+          top: defaultPaddingSize * 2,
         ),
       ],
     );

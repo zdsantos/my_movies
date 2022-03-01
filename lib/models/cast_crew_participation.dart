@@ -3,6 +3,7 @@ import 'package:my_movies/utils/utils.dart';
 class CastCrewParticipation {
   CastCrewParticipation({
     this.adult,
+    required this.title,
     required this.id,
     required this.popularity,
     this.character,
@@ -22,6 +23,7 @@ class CastCrewParticipation {
   });
 
   bool? adult;
+  String title;
   int id;
   double popularity;
   String? character;
@@ -46,6 +48,7 @@ class CastCrewParticipation {
 
     return CastCrewParticipation(
       adult: data.containsKey("adult") ? data["adult"] as bool : null,
+      title: data["title"],
       id: data["id"] as int,
       popularity: data.containsKey("popularity")
           ? castDoubleFromJson(data["popularity"])
@@ -66,6 +69,8 @@ class CastCrewParticipation {
           ? castDoubleFromJson(data["vote_average"])
           : 0.0,
       voteCount: data.containsKey("vote_count") ? data["vote_count"] as int : 0,
+      posterPath: data["poster_path"],
+      backdropPath: data["backdrop_path"],
     );
   }
 }

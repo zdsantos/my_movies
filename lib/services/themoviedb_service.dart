@@ -256,6 +256,13 @@ class TheMovieDBService {
     return "https://via.placeholder.com/533x300?text=Imagem+n%C3%A3o+dispon%C3%ADvel";
   }
 
+  static String buildProfileImageUrl(String? path) {
+    if (path != null) {
+      return "https://www.themoviedb.org/t/p/w300_and_h450_bestv2/$path";
+    }
+    return "https://via.placeholder.com/450x300?text=Imagem+n%C3%A3o+dispon%C3%ADvel";
+  }
+
   static String buildVideoUrl(String key) {
     return "https://www.youtube.com/watch?v=$key";
   }

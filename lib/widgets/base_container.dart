@@ -57,22 +57,20 @@ class BaseContainer extends StatelessWidget {
       }
     }
 
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          decoration: resultDecoration,
-          child: child,
-          alignment: alignment,
-          padding: padding,
-          color: color,
-          foregroundDecoration: foregroundDecoration,
-          width: width,
-          height: height,
-          constraints: constraints,
-          margin: margin,
-          transform: transform,
-          transformAlignment: transformAlignment,
-        ),
+    return Scaffold(
+      body: Container(
+        decoration: resultDecoration,
+        child: child,
+        alignment: alignment,
+        padding: padding,
+        color: color,
+        foregroundDecoration: foregroundDecoration,
+        width: width,
+        height: height,
+        constraints: constraints,
+        margin: margin,
+        transform: transform,
+        transformAlignment: transformAlignment,
       ),
     );
   }

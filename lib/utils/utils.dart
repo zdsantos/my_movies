@@ -88,12 +88,12 @@ String formatCurrency(double value) {
   return NumberFormat.currency(symbol: "\$").format(value);
 }
 
-DateTime calcAge(DateTime birthday) {
-  final now = DateTime.now();
+DateTime calcAge(DateTime from, [DateTime? to]) {
+  to ??= DateTime.now();
 
-  int years = now.year - birthday.year;
-  int months = now.month - birthday.month;
-  int days = now.day - birthday.day;
+  int years = to.year - from.year;
+  int months = to.month - from.month;
+  int days = to.day - from.day;
 
   if (months < 0 || (months == 0 && days < 0)) {
     years--;
@@ -101,8 +101,8 @@ DateTime calcAge(DateTime birthday) {
   }
 
   if (days < 0) {
-    final monthAgo = DateTime(now.year, now.month - 1, birthday.day);
-    days = now.difference(monthAgo).inDays + 1;
+    final monthAgo = DateTime(to.year, to.month - 1, from.day);
+    days = to.difference(monthAgo).inDays + 1;
   }
 
   return DateTime(years, months, days);
